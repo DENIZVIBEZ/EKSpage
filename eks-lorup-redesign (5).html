@@ -199,24 +199,29 @@
   .pro-scene.live{background:linear-gradient(180deg,#cfe8f6 0%,#e6f1f8 52%,#eef3e7 100%)}
   .pro-ground{position:absolute;left:0;right:0;bottom:0;height:13%;background:linear-gradient(180deg,#cdd6c4,#b7c1ab)}
   .pro-ground::before{content:"";position:absolute;top:-6px;left:0;right:0;height:7px;background:#c4cdb8;opacity:.65}
-  .pro-mast{position:absolute;left:46%;top:8%;width:13%;height:74%;z-index:1;transform:scaleY(0);transform-origin:50% 100%;opacity:0;transition:transform .65s cubic-bezier(.2,.8,.2,1),opacity .4s ease;pointer-events:none}
+  .pro-mast{position:absolute;left:45%;top:9%;width:12%;height:74%;z-index:1;transform:scaleY(0);transform-origin:50% 100%;opacity:0;transition:transform .65s cubic-bezier(.2,.8,.2,1),opacity .4s ease;pointer-events:none}
   .pro-mast.show{transform:none;opacity:1}
   .pro-mast svg{display:block;width:100%;height:100%;overflow:visible}
   .pro-mast .beacon{opacity:0}
   .pro-scene.live .pro-mast .beacon{opacity:1;animation:blink 1.15s steps(1,end) infinite}
-  .zone.air{opacity:.32;transition:opacity .45s ease}
-  .pro-scene.has-mast .zone.air,.zone.air.filled{opacity:1}
   .pro-wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
-  .zone{position:absolute;z-index:3;border:1.6px dashed #7d93a8;border-radius:10px;background:rgba(255,255,255,.34);display:flex;align-items:center;justify-content:center;text-align:center;padding:5px;transition:border-color .15s,background .15s,box-shadow .15s}
-  .zone .zlabel{font-family:"Saira";font-weight:700;font-size:.62rem;letter-spacing:.03em;text-transform:uppercase;color:#3c4d5c;line-height:1.18}
-  .zone.ok{border-color:var(--signal);background:rgba(44,143,224,.18);box-shadow:0 0 0 3px rgba(44,143,224,.2)}
-  .zone.bad{border-color:#E2542F;background:rgba(226,84,47,.16)}
-  .zone.filled{border-style:solid;border-color:transparent;background:#fff;box-shadow:var(--shadow)}
-  .zone.source{border-color:#F2882B;background:rgba(242,136,43,.2);box-shadow:0 0 0 3px rgba(242,136,43,.22)}
+  .zone{position:absolute;z-index:3;display:flex;align-items:center;justify-content:center;text-align:center;padding:4px;transition:box-shadow .15s}
+  .zone .zlabel{display:none}
+  .zone::before{content:"";position:absolute;left:50%;top:50%;width:13px;height:13px;border-radius:50%;transform:translate(-50%,-50%);background:#8aa1b6;opacity:0;transition:opacity .25s,background .25s,box-shadow .25s,transform .15s;pointer-events:none}
+  .zone.active::before{opacity:1;background:var(--signal);box-shadow:0 0 0 4px rgba(44,143,224,.16),0 0 14px 3px rgba(44,143,224,.6);animation:dotpulse 1.7s ease-in-out infinite}
+  .zone.hover{box-shadow:0 0 0 3px rgba(44,143,224,.4);border-radius:10px}
+  .zone.hover::before{opacity:1;background:#2C8FE0;transform:translate(-50%,-50%) scale(1.35);box-shadow:0 0 16px 6px rgba(44,143,224,.7);animation:none}
+  .zone.ok::before{opacity:1;background:#14A06F;transform:translate(-50%,-50%) scale(1.3);box-shadow:0 0 0 6px rgba(20,160,111,.2),0 0 16px 5px rgba(20,160,111,.6);animation:none}
+  .zone.bad::before{opacity:1;background:#E2542F;transform:translate(-50%,-50%) scale(1.2);box-shadow:0 0 0 6px rgba(226,84,47,.22);animation:none}
+  .zone.source::before{opacity:1;background:#F2882B;transform:translate(-50%,-50%) scale(1.3);box-shadow:0 0 0 6px rgba(242,136,43,.24);animation:none}
+  .zone.filled{background:transparent;box-shadow:none}
+  .zone.filled::before{display:none}
+  #z-remote::before{opacity:.5;width:11px;height:11px;background:#7c93a6;box-shadow:0 0 7px 2px rgba(120,150,175,.4)}
+  @keyframes dotpulse{0%,100%{box-shadow:0 0 0 3px rgba(44,143,224,.14),0 0 9px 2px rgba(44,143,224,.45)}50%{box-shadow:0 0 0 8px rgba(44,143,224,.05),0 0 18px 6px rgba(44,143,224,.8)}}
   .zone.small .zlabel{font-size:.5rem}.zone.small .inst b{font-size:.46rem}
   .zone .inst{display:none;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;height:100%}
   .zone.filled .inst{display:flex}.zone.filled .zlabel{display:none}
-  .zone .inst svg{width:100%;flex:1 1 auto;min-height:0;color:var(--brand)}
+  .zone .inst svg{width:100%;flex:1 1 auto;min-height:0;color:#34424f}
   .zone .inst b{font-family:"Saira";font-weight:700;font-size:.5rem;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);line-height:1;flex:none}
   .tray{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px;min-height:42px}
   .comp{display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid var(--line-l);border-radius:10px;padding:8px 12px 8px 8px;cursor:grab;touch-action:pan-y;user-select:none;transition:transform .12s,box-shadow .12s,border-color .12s}
@@ -590,23 +595,23 @@
               <circle class="beacon" cx="16" cy="9" r="3" fill="#ff4848"/>
             </svg></div>
             <svg class="pro-wires" id="proWires" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true"></svg>
-            <div class="zone" id="z-civil" style="left:40%;top:88%;width:26%;height:9%"><span class="zlabel">Greenfield · Fundament</span></div>
-            <div class="zone" id="z-zas" style="left:3%;top:60%;width:20%;height:9%"><span class="zlabel">ZAS · Netz</span></div>
-            <div class="zone" id="z-euv" style="left:3%;top:70%;width:20%;height:9%"><span class="zlabel">EÜV · Übergabe</span></div>
-            <div class="zone" id="z-rack" style="left:3%;top:80%;width:22%;height:13%"><span class="zlabel">Systemrack · BBU/PSU</span></div>
-            <div class="zone" id="z-lwl" style="left:26%;top:84%;width:14%;height:9%"><span class="zlabel">LWL-Abschluss</span></div>
-            <div class="zone" id="z-mast" style="left:46%;top:78%;width:14%;height:9%"><span class="zlabel">Mastfuß</span></div>
-            <div class="zone small air" id="z-mw" style="left:44%;top:52%;width:16%;height:11%"><span class="zlabel">Richtfunk</span></div>
-            <div class="zone small" id="z-remote" style="left:86%;top:62%;width:12%;height:9%"><span class="zlabel">Gegenstelle</span></div>
-            <div class="zone small air" id="z-rruA" style="left:42%;top:10%;width:13%;height:8%"><span class="zlabel">Radio 4G · A</span></div>
-            <div class="zone small air" id="z-antA" style="left:58%;top:8%;width:18%;height:9%"><span class="zlabel">Passive 4G Antenne · A</span></div>
-            <div class="zone small air" id="z-aauA" style="left:78%;top:8%;width:17%;height:9%"><span class="zlabel">5G AAU · A</span></div>
-            <div class="zone small air" id="z-rruB" style="left:42%;top:24%;width:13%;height:8%"><span class="zlabel">Radio 4G · B</span></div>
-            <div class="zone small air" id="z-antB" style="left:58%;top:22%;width:18%;height:9%"><span class="zlabel">Passive 4G Antenne · B</span></div>
-            <div class="zone small air" id="z-aauB" style="left:78%;top:22%;width:17%;height:9%"><span class="zlabel">5G AAU · B</span></div>
-            <div class="zone small air" id="z-rruC" style="left:42%;top:38%;width:13%;height:8%"><span class="zlabel">Radio 4G · C</span></div>
-            <div class="zone small air" id="z-antC" style="left:58%;top:36%;width:18%;height:9%"><span class="zlabel">Passive 4G Antenne · C</span></div>
-            <div class="zone small air" id="z-aauC" style="left:78%;top:36%;width:17%;height:9%"><span class="zlabel">5G AAU · C</span></div>
+            <div class="zone" id="z-civil" style="left:42%;top:86%;width:18%;height:8%"><span class="zlabel">Greenfield · Fundament</span></div>
+            <div class="zone" id="z-zas" style="left:32%;top:78%;width:9%;height:13%"><span class="zlabel">ZAS · Netz</span></div>
+            <div class="zone" id="z-euv" style="left:21%;top:78%;width:10%;height:13%"><span class="zlabel">EÜV · Übergabe</span></div>
+            <div class="zone" id="z-rack" style="left:5%;top:74%;width:14%;height:17%"><span class="zlabel">Systemrack · BBU/PSU</span></div>
+            <div class="zone" id="z-lwl" style="left:21%;top:65%;width:11%;height:9%"><span class="zlabel">LWL-Abschluss</span></div>
+            <div class="zone" id="z-mast" style="left:46%;top:78%;width:10%;height:8%"><span class="zlabel">Mastfuß</span></div>
+            <div class="zone small" id="z-mw" style="left:45%;top:60%;width:12%;height:9%"><span class="zlabel">Richtfunk</span></div>
+            <div class="zone small" id="z-remote" style="left:84%;top:60%;width:13%;height:9%"><span class="zlabel">Gegenstelle</span></div>
+            <div class="zone small" id="z-rruA" style="left:46%;top:12%;width:8%;height:8%"><span class="zlabel">Radio 4G · A</span></div>
+            <div class="zone small" id="z-antA" style="left:30%;top:9%;width:9%;height:12%"><span class="zlabel">Passive 4G Antenne · A</span></div>
+            <div class="zone small" id="z-aauA" style="left:58%;top:11%;width:13%;height:9%"><span class="zlabel">5G AAU · A</span></div>
+            <div class="zone small" id="z-rruB" style="left:46%;top:29%;width:8%;height:8%"><span class="zlabel">Radio 4G · B</span></div>
+            <div class="zone small" id="z-antB" style="left:30%;top:26%;width:9%;height:12%"><span class="zlabel">Passive 4G Antenne · B</span></div>
+            <div class="zone small" id="z-aauB" style="left:58%;top:28%;width:13%;height:9%"><span class="zlabel">5G AAU · B</span></div>
+            <div class="zone small" id="z-rruC" style="left:46%;top:46%;width:8%;height:8%"><span class="zlabel">Radio 4G · C</span></div>
+            <div class="zone small" id="z-antC" style="left:30%;top:43%;width:9%;height:12%"><span class="zlabel">Passive 4G Antenne · C</span></div>
+            <div class="zone small" id="z-aauC" style="left:58%;top:45%;width:13%;height:9%"><span class="zlabel">5G AAU · C</span></div>
           </div>
           <div class="pro-legend">
             <span><i class="lg ac"></i>AC-Zuleitung</span>
@@ -988,10 +993,11 @@
       });
     }
     function syncScene(){var m=!!filled['z-mast'];if(proMastStruct)proMastStruct.classList.toggle('show',m);scene.classList.toggle('has-mast',m);}
+    function updateDots(){var open={};openComponents().forEach(function(c){open[c.zone]=1;});ZIDS.forEach(function(zid){var z=document.getElementById(zid);if(z)z.classList.toggle('active',!!open[zid]&&!filled[zid]);});}
     function progress(){
       updateStats();
       Array.prototype.forEach.call(checkEl.querySelectorAll('.chk'),function(r){var id=r.id.replace('chk-','');r.classList.toggle('done',id.indexOf('z-')===0?!!filled[id]:!!linked[id]);});
-      syncScene();
+      syncScene();updateDots();
     }
     function prereqMsg(c){
       var missing=c.need.filter(function(n){return !reqDone(n);}).map(function(n){if(n.indexOf('z-')===0){var z=document.getElementById(n);return z?(z.querySelector('.zlabel')||z).textContent:n;}return (CABLE_BY_ID[n]&&CABLE_BY_ID[n].sub)||n;});
@@ -1003,15 +1009,15 @@
     function selectItem(kind,item,chip){
       if(selected&&selected.chip===chip){clearSelect();return;}
       clearSelect();selected={kind:kind,item:item,chip:chip,from:null};chip.classList.add('selected');
-      if(kind==='component')hint('Ziehe '+item.short+' an die richtige Position: '+(document.getElementById(item.zone).textContent||item.zone)+'.');
-      else hint('Kabel auswählen: zuerst Quelle '+zoneName(item.from)+' anklicken, danach Ziel '+(item.to?zoneName(item.to):'Gegenstelle')+'.');
+      if(kind==='component')hint('Ziehe '+item.short+' an die passende, leuchtende Montageposition.');
+      else hint('Kabel '+item.short+': zuerst den Startpunkt, dann den Zielpunkt anklicken.');
     }
     function zoneName(id){var z=document.getElementById(id);return z?(z.querySelector('.zlabel')||z).textContent:id;}
     function placeDom(z,c){z.classList.add('filled');z.setAttribute('data-type',c.type);z.innerHTML='<span class="inst"><svg viewBox="'+(VB[c.type]||'0 0 24 24')+'" preserveAspectRatio="xMidYMid meet" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+c.ico+'</svg><b>'+c.short+'</b></span>';}
     function tryPlaceComponent(c,chip,z){
       start();
       if(filled[z.id]){penalize('Hier ist schon ein Element montiert.',z);return;}
-      if(z.id!==c.zone){penalize('An diese Position gehört '+(TYPENICE[(COMP_BY_ZONE[z.id]||{}).type]||'kein Bauteil')+' – nicht '+c.short+'.',z);return;}
+      if(z.id!==c.zone){penalize(c.short+' gehört nicht an diese Position – probier eine andere.',z);return;}
       if(!needsMet(c.need)){penalize(prereqMsg(c),z);return;}
       proScore+=120;filled[z.id]=c.id;placeDom(z,c);if(chip&&chip.parentNode)chip.parentNode.removeChild(chip);clearSelect();drawWires();progress();hint(c.short+' montiert.');if(doneCount()===TOTAL)finale();
     }
@@ -1026,8 +1032,8 @@
       linked[c.id]=1;proScore+=80;if(selected.chip&&selected.chip.parentNode)selected.chip.parentNode.removeChild(selected.chip);clearSelect();drawWires();progress();hint(c.sub+' verbunden.');if(doneCount()===TOTAL)finale();
     }
     function zoneAt(x,y){for(var i=0;i<ZIDS.length;i++){var z=document.getElementById(ZIDS[i]),r=z.getBoundingClientRect();if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return z;}return null;}
-    function clearHl(){ZIDS.forEach(function(z){var el=document.getElementById(z);el.classList.remove('ok');el.classList.remove('bad');});}
-    function hl(x,y,kind,item){clearHl();var z=zoneAt(x,y);if(!z)return;if(kind==='component'){z.classList.add(z.id===item.zone&&needsMet(item.need)&&!filled[z.id]?'ok':'bad');}else{z.classList.add((z.id===item.from||z.id===item.to)&&needsMet(item.need)?'ok':'bad');}}
+    function clearHl(){ZIDS.forEach(function(z){var el=document.getElementById(z);el.classList.remove('ok','bad','hover');});}
+    function hl(x,y,kind,item){clearHl();var z=zoneAt(x,y);if(z)z.classList.add('hover');}
 
     function zc(zid){var z=document.getElementById(zid),s=scene.getBoundingClientRect(),r=z.getBoundingClientRect();return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2};}
     function linePts(a,b,color,dash,off,width){var ux=b.x-a.x,uy=b.y-a.y,L=Math.sqrt(ux*ux+uy*uy)||1,px=-uy/L*(off||0),py=ux/L*(off||0);var l=document.createElementNS(SVGNS,'line');l.setAttribute('x1',a.x+px);l.setAttribute('y1',a.y+py);l.setAttribute('x2',b.x+px);l.setAttribute('y2',b.y+py);l.setAttribute('stroke',color);l.setAttribute('stroke-width',width||2.8);l.setAttribute('stroke-linecap','round');if(dash)l.setAttribute('stroke-dasharray',dash);wires.appendChild(l);}
