@@ -155,6 +155,10 @@
   .prog{height:8px;border-radius:5px;background:#dde4ec;overflow:hidden;margin-bottom:8px}
   .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--signal));border-radius:5px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
   .prog-label{font-family:"Saira";font-weight:600;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:18px}
+  .game-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:-6px 0 18px}
+  .stat-pill{background:#fff;border:1px solid var(--line-l);border-radius:10px;padding:9px 10px;display:flex;flex-direction:column;gap:1px}
+  .stat-pill span{font-family:"Barlow";font-size:.7rem;color:var(--ink-soft);line-height:1.1}
+  .stat-pill b{font-family:"Saira";font-weight:800;font-size:1.05rem;color:var(--brand);line-height:1.05}
   .steplist{display:flex;flex-direction:column;gap:10px}
   .stepbtn{display:flex;align-items:center;gap:13px;width:100%;text-align:left;cursor:pointer;background:#fff;border:1.5px solid var(--line-l);border-radius:10px;padding:13px 15px;font-family:"Saira";font-weight:600;font-size:.98rem;color:var(--ink);transition:.18s}
   .stepbtn:hover{border-color:var(--signal);transform:translateX(3px)}
@@ -163,8 +167,13 @@
   .stepbtn .sn svg{width:20px;height:20px;color:var(--sky)}
   .stepbtn:hover .sn svg{color:#fff}
   .stepbtn.wrong{animation:shake .4s;border-color:#E2542F}
+  .stepbtn.correct{border-color:var(--signal);background:rgba(44,143,224,.08);transform:translateX(5px)}
+  .stepbtn.locked{opacity:.72}
   @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
   .hint{margin-top:16px;min-height:22px;font-family:"Barlow";font-size:.9rem;color:var(--brand);font-weight:600;opacity:0;transition:opacity .25s}
+  .mini-help{margin-top:10px;background:rgba(44,143,224,.09);border:1px solid rgba(44,143,224,.18);border-radius:10px;padding:10px 12px;font-family:"Barlow";font-size:.86rem;color:var(--ink-soft)}
+  .assist{margin-top:10px;align-self:flex-start;background:#fff;border:1.5px solid var(--line-l);border-radius:999px;padding:8px 13px;font-family:"Saira";font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);cursor:pointer;transition:.2s}
+  .assist:hover{border-color:var(--signal);transform:translateY(-1px)}
   .hint.on{opacity:1}
   .reset{margin-top:18px;align-self:flex-start;font-family:"Saira";font-weight:600;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);background:none;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
   .reset svg{width:14px;height:14px}
@@ -205,6 +214,7 @@
   .zone .inst b{font-family:"Saira";font-weight:700;font-size:.58rem;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);line-height:1.05}
   .tray{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px;min-height:42px}
   .comp{display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid var(--line-l);border-radius:10px;padding:8px 12px 8px 8px;cursor:grab;touch-action:none;user-select:none;transition:transform .12s,box-shadow .12s,border-color .12s}
+  .comp:focus-visible,.zone:focus-visible,.mode-btn:focus-visible,.stepbtn:focus-visible,.assist:focus-visible{outline:3px solid rgba(44,143,224,.45);outline-offset:2px}
   .comp:hover{border-color:var(--signal);box-shadow:0 8px 18px -10px rgba(44,143,224,.5);transform:translateY(-1px)}
   .comp:active{cursor:grabbing}
   .comp.selected{border-color:var(--signal);box-shadow:0 0 0 3px rgba(44,143,224,.25)}
@@ -229,7 +239,7 @@
   .pro-ring{position:absolute;width:18px;height:18px;border:2px solid var(--signal);border-radius:50%;transform:translate(-50%,-50%) scale(.4);opacity:0;z-index:4;pointer-events:none;animation:proPing 2.2s ease-out infinite}
   @keyframes proPing{0%{transform:translate(-50%,-50%) scale(.4);opacity:.85}70%{opacity:.12}100%{transform:translate(-50%,-50%) scale(5);opacity:0}}
   @media(max-width:980px){.pro-wrap{grid-template-columns:1fr;gap:22px}.pro-scene{min-height:480px}}
-  @media(max-width:760px){.pro-scene{min-height:430px}.zone .zlabel{font-size:.54rem}.zone .inst b{font-size:.53rem}.comp .ct b{font-size:.76rem}.comp .ct span{font-size:.66rem}.pro-legend{font-size:.66rem;gap:11px}}
+  @media(max-width:760px){.game-stats{grid-template-columns:1fr}.pro-scene{min-height:430px}.zone .zlabel{font-size:.54rem}.zone .inst b{font-size:.53rem}.comp .ct b{font-size:.76rem}.comp .ct span{font-size:.66rem}.pro-legend{font-size:.66rem;gap:11px}}
 
   /* ===== Team & Kultur ===== */
   .team-sec{background:#fff;position:relative}
@@ -533,11 +543,17 @@
         <p class="sub" id="ctrlSub">Was kommt als Erstes? Wähle klug – bei Fehlern gibt's einen Tipp.</p>
         <div class="prog"><i id="progBar"></i></div>
         <div class="prog-label" id="progLabel">Schritt 1 von 7</div>
+        <div class="game-stats" aria-label="Spielstand">
+          <div class="stat-pill"><span>Punkte</span><b id="scoreVal">0</b></div>
+          <div class="stat-pill"><span>Serie</span><b id="streakVal">0×</b></div>
+          <div class="stat-pill"><span>Fehler</span><b id="mistakeVal">0</b></div>
+        </div>
         <div class="steplist" id="steplist"></div>
         <div class="hint" id="hint"></div>
+        <div class="mini-help" id="stepInfo">Tipp: Richtige Reihenfolge bringt Serien-Bonus. Bei einem Fehler zeigen wir dir, warum der nächste Schritt wichtig ist.</div>
         <div class="win" id="win">
           <span class="tag">Station am Netz!</span>
-          <p>Genau das baut unser Team – in echt, jeden Tag. Lust, selbst mitzubauen?</p>
+          <p id="winText">Genau das baut unser Team – in echt, jeden Tag. Lust, selbst mitzubauen?</p>
           <a class="btn btn-signal" href="#karriere">Zur Karriere
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
@@ -578,7 +594,13 @@
           <p class="sub" id="proSub">Zieh jedes Bauteil an seinen Platz – oder tippe es an und dann auf die Position. Die Reihenfolge zählt: erst die Energie, dann die Glasfaser, dann je Sektor RRU und aktive Antenne.</p>
           <div class="prog"><i id="proBar"></i></div>
           <div class="prog-label" id="proLabel">0 von 10 Bauteilen</div>
+          <div class="game-stats" aria-label="Profi-Spielstand">
+            <div class="stat-pill"><span>Punkte</span><b id="proScore">0</b></div>
+            <div class="stat-pill"><span>Tempo</span><b id="proTempo">Start</b></div>
+            <div class="stat-pill"><span>Fehler</span><b id="proMistakes">0</b></div>
+          </div>
           <div class="tray" id="proTray"></div>
+          <button class="assist" id="proAssist" type="button">Nächsten Schritt anzeigen</button>
           <div class="checklist" id="proCheck"></div>
           <div class="hint" id="proHint"></div>
           <div class="win" id="proWin">
@@ -749,13 +771,20 @@
     {id:'tech',svg:'tech',n:'Technik anschließen',ico:'<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h3"/>',hint:'Im Schaltschrank am Boden läuft die Technik zusammen.'},
     {id:'go',svg:'go',n:'In Betrieb nehmen',ico:'<path d="M13 2L3 14h7l-1 8 10-12h-7z"/>',hint:'Zum Schluss wird eingemessen, eingeschaltet – und die Station geht ans Netz.'}
   ];
-  var cur=0;
-  var steplistEl=document.getElementById('steplist'),hintEl=document.getElementById('hint'),progBar=document.getElementById('progBar'),progLabel=document.getElementById('progLabel'),winEl=document.getElementById('win'),sceneEl=document.getElementById('scene'),sceneTag=document.getElementById('sceneTag'),liveBadge=document.getElementById('liveBadge'),ctrlTitle=document.getElementById('ctrlTitle'),ctrlSub=document.getElementById('ctrlSub');
+  var cur=0,score=0,streak=0,mistakes=0;
+  var steplistEl=document.getElementById('steplist'),hintEl=document.getElementById('hint'),progBar=document.getElementById('progBar'),progLabel=document.getElementById('progLabel'),winEl=document.getElementById('win'),sceneEl=document.getElementById('scene'),sceneTag=document.getElementById('sceneTag'),liveBadge=document.getElementById('liveBadge'),ctrlTitle=document.getElementById('ctrlTitle'),ctrlSub=document.getElementById('ctrlSub'),scoreVal=document.getElementById('scoreVal'),streakVal=document.getElementById('streakVal'),mistakeVal=document.getElementById('mistakeVal'),stepInfo=document.getElementById('stepInfo'),winText=document.getElementById('winText');
   var hintTimer=null;
 
   function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 
+  function updateStats(){
+    scoreVal.textContent=score;
+    streakVal.textContent=streak+'×';
+    mistakeVal.textContent=mistakes;
+  }
+
   function render(){
+    updateStats();
     progBar.style.width=(cur/STEPS.length*100)+'%';
     if(cur<STEPS.length){progLabel.textContent='Schritt '+(cur+1)+' von '+STEPS.length;}
     else{progLabel.textContent='Fertig · 7 von 7';}
@@ -765,6 +794,7 @@
       var b=document.createElement('button');
       b.className='stepbtn';b.setAttribute('data-id',s.id);
       b.innerHTML='<span class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+s.ico+'</svg></span><span>'+s.n+'</span>';
+      if(cur<STEPS.length&&s.id!==STEPS[cur].id)b.classList.add('locked');
       b.addEventListener('click',function(){pick(s.id,b);});
       steplistEl.appendChild(b);
     });
@@ -772,15 +802,24 @@
 
   function showHint(txt){hintEl.textContent=txt;hintEl.classList.add('on');if(hintTimer)clearTimeout(hintTimer);hintTimer=setTimeout(function(){hintEl.classList.remove('on');},3600);}
 
+  function explainStep(step){
+    stepInfo.textContent='Montiert: '+step.n+' · '+step.hint;
+  }
+
   function pick(id,btn){
     var expected=STEPS[cur];
     if(id===expected.id){
       var part=document.getElementById('p-'+expected.svg);
       if(part)part.classList.add('show');
+      streak++;score+=100+(streak-1)*15;
+      btn.classList.remove('locked');btn.classList.add('correct');
+      explainStep(expected);
       cur++;
       hintEl.classList.remove('on');
-      if(cur>=STEPS.length){finale();}else{render();}
+      updateStats();
+      if(cur>=STEPS.length){setTimeout(finale,180);}else{setTimeout(render,180);}
     }else{
+      mistakes++;streak=0;score=Math.max(0,score-25);updateStats();
       btn.classList.add('wrong');
       setTimeout(function(){btn.classList.remove('wrong');},420);
       showHint('Noch nicht dran: '+expected.hint);
@@ -792,6 +831,7 @@
     ctrlTitle.textContent='Geschafft!';
     ctrlSub.style.display='none';
     steplistEl.style.display='none';
+    winText.textContent='Sauber aufgebaut: '+score+' Punkte, '+mistakes+' Fehler. Genau das baut unser Team – in echt, jeden Tag. Lust, selbst mitzubauen?';
     winEl.classList.add('on');
     sceneEl.classList.add('done');
     sceneTag.textContent='Standort · am Netz';
@@ -807,7 +847,7 @@
   }
 
   document.getElementById('reset').addEventListener('click',function(){
-    cur=0;
+    cur=0;score=0;streak=0;mistakes=0;
     ['plan','fund','mast','ant','rf','tech','go'].forEach(function(k){var p=document.getElementById('p-'+k);if(p)p.classList.remove('show');});
     liveBadge.classList.remove('on');
     sceneEl.classList.remove('done');
@@ -817,6 +857,7 @@
     ctrlSub.style.display='block';
     ctrlTitle.textContent='Tippe den nächsten Schritt';
     hintEl.classList.remove('on');
+    stepInfo.textContent='Tipp: Richtige Reihenfolge bringt Serien-Bonus. Bei einem Fehler zeigen wir dir, warum der nächste Schritt wichtig ist.';
     render();
   });
 
@@ -828,9 +869,10 @@
     if(!scene)return;
     var wires=document.getElementById('proWires'),tray=document.getElementById('proTray'),checkEl=document.getElementById('proCheck'),
         hintEl=document.getElementById('proHint'),barEl=document.getElementById('proBar'),labelEl=document.getElementById('proLabel'),
-        winEl=document.getElementById('proWin'),live=document.getElementById('proLive'),titleEl=document.getElementById('proTitle'),subEl=document.getElementById('proSub');
+        winEl=document.getElementById('proWin'),live=document.getElementById('proLive'),titleEl=document.getElementById('proTitle'),subEl=document.getElementById('proSub'),
+        proScoreEl=document.getElementById('proScore'),proTempoEl=document.getElementById('proTempo'),proMistakeEl=document.getElementById('proMistakes'),proAssist=document.getElementById('proAssist');
     var SVGNS='http://www.w3.org/2000/svg';
-    var filled={},selected=null,origLabels={},ready=false,hintTimer=null;
+    var filled={},selected=null,origLabels={},ready=false,hintTimer=null,proScore=0,proMistakes=0,proStarted=0;
     var ZIDS=['z-zas','z-euv','z-svr','z-lwl','z-rruA','z-aauA','z-rruB','z-aauB','z-rruC','z-aauC'];
     var RICO='<rect x="6" y="5" width="12" height="14" rx="2"/><path d="M10 5v14M14 5v14"/>';
     var AICO='<rect x="8" y="3" width="8" height="15" rx="1.5"/><path d="M12 18v3M17 7l2-1M17 11l2-1M17 15l2-1"/>';
@@ -859,11 +901,14 @@
     function count(){var n=0;for(var k in filled)n++;return n;}
     function usedIds(){var u={};for(var z in filled)u[filled[z]]=1;return u;}
     function needMet(zid){return ZONES[zid].need.every(function(n){return !!filled[n];});}
+    function openZones(){return ZIDS.filter(function(z){return !filled[z]&&needMet(z);});}
+    function nextOpenZone(){var z=openZones()[0];return z?document.getElementById(z):null;}
+    function proUpdateStats(){var n=count(),elapsed=proStarted?Math.max(1,Math.round((Date.now()-proStarted)/1000)):0;proScoreEl.textContent=proScore;proMistakeEl.textContent=proMistakes;proTempoEl.textContent=n===0?'Start':elapsed+'s';}
 
     function buildTray(){
       tray.innerHTML='';var used=usedIds();
       shuffle(PCOMP.filter(function(c){return !used[c.id];})).forEach(function(c){
-        var el=document.createElement('div');el.className='comp';
+        var el=document.createElement('div');el.className='comp';el.setAttribute('tabindex','0');el.setAttribute('role','button');el.setAttribute('aria-label',c.short+' '+c.sub+' auswählen');
         el.innerHTML='<span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+c.ico+'</svg></span><span class="ct"><b>'+c.short+'</b><span>'+c.sub+'</span></span>';
         attachChip(el,c);tray.appendChild(el);
       });
@@ -877,7 +922,8 @@
       });
     }
     function progress(){var n=count();barEl.style.width=(n/10*100)+'%';labelEl.textContent=n+' von 10 Bauteilen';
-      ZIDS.forEach(function(z){var r=document.getElementById('chk-'+z);if(r)r.classList.toggle('done',!!filled[z]);});}
+      ZIDS.forEach(function(z){var r=document.getElementById('chk-'+z);if(r)r.classList.toggle('done',!!filled[z]);});
+      proUpdateStats();}
     function hint(t){hintEl.textContent=t;hintEl.classList.add('on');if(hintTimer)clearTimeout(hintTimer);hintTimer=setTimeout(function(){hintEl.classList.remove('on');},4200);}
     function prereqMsg(zid){
       if(zid==='z-euv')return 'Zuerst die Zählerabschluss-Säule – sie bringt den Netzstrom.';
@@ -914,9 +960,11 @@
     function selectComp(c,chip){if(selected&&selected.chip===chip){clearSelect();return;}clearSelect();selected={comp:c,chip:chip};chip.classList.add('selected');hint('Jetzt auf die passende Position tippen.');}
     function tryPlace(c,chip,z){
       var zid=z.id,def=ZONES[zid];
-      if(filled[zid]){hint('Hier ist schon ein Bauteil montiert.');return;}
-      if(def.type!==c.type){hint('An diese Position gehört '+TYPENICE[def.type]+'.');flashBad(z);return;}
-      if(!needMet(zid)){hint(prereqMsg(zid));flashBad(z);return;}
+      if(!proStarted)proStarted=Date.now();
+      if(filled[zid]){proMistakes++;proScore=Math.max(0,proScore-15);progress();hint('Hier ist schon ein Bauteil montiert.');return;}
+      if(def.type!==c.type){proMistakes++;proScore=Math.max(0,proScore-20);progress();hint('An diese Position gehört '+TYPENICE[def.type]+'.');flashBad(z);return;}
+      if(!needMet(zid)){proMistakes++;proScore=Math.max(0,proScore-20);progress();hint(prereqMsg(zid));flashBad(z);return;}
+      proScore+=120;
       filled[zid]=c.id;placeDom(z,c);if(chip&&chip.parentNode)chip.parentNode.removeChild(chip);clearSelect();
       drawWires();progress();
       if(count()===10)finale();
@@ -926,6 +974,7 @@
     function hl(x,y,c){clearHl();var z=zoneAt(x,y);if(!z)return;var def=ZONES[z.id];if(def.type===c.type&&needMet(z.id))z.classList.add('ok');else z.classList.add('bad');}
 
     function attachChip(chip,c){
+      chip.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectComp(c,chip);}});
       chip.addEventListener('pointerdown',function(ev){
         ev.preventDefault();
         var sx=ev.clientX,sy=ev.clientY,dragging=false,ghost=null;
@@ -947,21 +996,22 @@
     function proConfetti(){var cols=['#2C8FE0','#1769B2','#5FB0D4','#F2882B','#ffffff'];var c=document.createElement('div');c.className='confetti';scene.appendChild(c);
       for(var i=0;i<30;i++){var s=document.createElement('span');s.style.left=(Math.random()*100)+'%';s.style.background=cols[i%cols.length];s.style.animationDuration=(1.6+Math.random()*1.5)+'s';s.style.animationDelay=(Math.random()*0.5)+'s';s.style.transform='rotate('+(Math.random()*360)+'deg)';c.appendChild(s);}
       setTimeout(function(){c.remove();},3400);}
-    function finale(){titleEl.textContent='Geschafft – Station am Netz!';subEl.style.display='none';tray.style.display='none';winEl.classList.add('on');scene.classList.add('live');setTimeout(function(){live.classList.add('on');ringFx();proConfetti();},450);}
+    function finale(){titleEl.textContent='Geschafft – Station am Netz!';subEl.style.display='none';tray.style.display='none';proAssist.style.display='none';winEl.classList.add('on');scene.classList.add('live');setTimeout(function(){live.classList.add('on');ringFx();proConfetti();},450);}
 
     function reset(){
-      filled={};clearSelect();
+      filled={};clearSelect();proScore=0;proMistakes=0;proStarted=0;
       ZIDS.forEach(function(zid){var z=document.getElementById(zid);z.classList.remove('filled');z.classList.remove('ok');z.classList.remove('bad');z.innerHTML='<span class="zlabel">'+origLabels[zid]+'</span>';});
       wires.innerHTML='';Array.prototype.forEach.call(scene.querySelectorAll('.pro-ring'),function(r){r.parentNode.removeChild(r);});
       live.classList.remove('on');scene.classList.remove('live');winEl.classList.remove('on');
-      tray.style.display='flex';subEl.style.display='block';titleEl.textContent='Bau die Station – Profimodus';hintEl.classList.remove('on');
+      tray.style.display='flex';proAssist.style.display='inline-flex';subEl.style.display='block';titleEl.textContent='Bau die Station – Profimodus';hintEl.classList.remove('on');
       buildTray();progress();drawWires();
     }
 
     function init(){
       if(!ready){
-        ZIDS.forEach(function(zid){var z=document.getElementById(zid),lab=z.querySelector('.zlabel');origLabels[zid]=lab?lab.textContent:'';z.addEventListener('click',function(){if(selected)tryPlace(selected.comp,selected.chip,z);});});
+        ZIDS.forEach(function(zid){var z=document.getElementById(zid),lab=z.querySelector('.zlabel');origLabels[zid]=lab?lab.textContent:'';z.setAttribute('tabindex','0');z.setAttribute('role','button');z.setAttribute('aria-label',(lab?lab.textContent:zid)+' Montageposition');z.addEventListener('click',function(){if(selected)tryPlace(selected.comp,selected.chip,z);});z.addEventListener('keydown',function(ev){if((ev.key==='Enter'||ev.key===' ')&&selected){ev.preventDefault();tryPlace(selected.comp,selected.chip,z);}});});
         buildTray();buildCheck();
+        proAssist.addEventListener('click',function(){var z=nextOpenZone();if(!z)return;z.classList.add('ok');hint('Als Nächstes passt: '+(z.querySelector('.zlabel')?z.querySelector('.zlabel').textContent:z.textContent)+'.');setTimeout(function(){z.classList.remove('ok');},1400);});
         document.getElementById('proReset').addEventListener('click',reset);
         window.addEventListener('resize',function(){if(!document.getElementById('modePro').hidden)drawWires();});
         ready=true;
