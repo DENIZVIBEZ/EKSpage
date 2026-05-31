@@ -195,13 +195,17 @@
   .mode-btn.active{background:var(--brand);color:#fff;box-shadow:0 8px 20px -10px rgba(23,105,178,.7)}
   .pro-wrap{display:grid;grid-template-columns:1.18fr .82fr;gap:32px;align-items:stretch}
   .pro-stage{display:flex;flex-direction:column;gap:12px}
-  .pro-scene{position:relative;flex:1;min-height:520px;border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#bfe0f2 0%,#dcecf7 52%,#e9efe3 100%);box-shadow:var(--shadow);transition:background 1s ease;touch-action:none;user-select:none}
+  .pro-scene{position:relative;width:100%;aspect-ratio:4/5;max-height:min(78vh,680px);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#bfe0f2 0%,#dcecf7 52%,#e9efe3 100%);box-shadow:var(--shadow);transition:background 1s ease;touch-action:pan-y;user-select:none}
   .pro-scene.live{background:linear-gradient(180deg,#cfe8f6 0%,#e6f1f8 52%,#eef3e7 100%)}
   .pro-ground{position:absolute;left:0;right:0;bottom:0;height:13%;background:linear-gradient(180deg,#cdd6c4,#b7c1ab)}
   .pro-ground::before{content:"";position:absolute;top:-6px;left:0;right:0;height:7px;background:#c4cdb8;opacity:.65}
-  .pro-mast{position:absolute;left:64%;top:5%;width:2.6%;height:82%;z-index:1;border-radius:3px;background:repeating-linear-gradient(0deg,#48596a 0 2px,transparent 2px 15px),linear-gradient(90deg,#6a7b8a,#3b4956 60%,#2f3c48)}
-  .pro-mast::before{content:"";position:absolute;left:-3px;right:-3px;top:0;bottom:0;background:repeating-linear-gradient(0deg,transparent 0 7px,rgba(60,75,90,.45) 7px 8px)}
-  .pro-mast::after{content:"";position:absolute;left:50%;top:-9px;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:#ff4848;box-shadow:0 0 8px 1px rgba(255,72,72,.7);animation:blink 1.15s steps(1,end) infinite}
+  .pro-mast{position:absolute;left:46%;top:8%;width:13%;height:74%;z-index:1;transform:scaleY(0);transform-origin:50% 100%;opacity:0;transition:transform .65s cubic-bezier(.2,.8,.2,1),opacity .4s ease;pointer-events:none}
+  .pro-mast.show{transform:none;opacity:1}
+  .pro-mast svg{display:block;width:100%;height:100%;overflow:visible}
+  .pro-mast .beacon{opacity:0}
+  .pro-scene.live .pro-mast .beacon{opacity:1;animation:blink 1.15s steps(1,end) infinite}
+  .zone.air{opacity:.32;transition:opacity .45s ease}
+  .pro-scene.has-mast .zone.air,.zone.air.filled{opacity:1}
   .pro-wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
   .zone{position:absolute;z-index:3;border:1.6px dashed #7d93a8;border-radius:10px;background:rgba(255,255,255,.34);display:flex;align-items:center;justify-content:center;text-align:center;padding:5px;transition:border-color .15s,background .15s,box-shadow .15s}
   .zone .zlabel{font-family:"Saira";font-weight:700;font-size:.62rem;letter-spacing:.03em;text-transform:uppercase;color:#3c4d5c;line-height:1.18}
@@ -209,13 +213,13 @@
   .zone.bad{border-color:#E2542F;background:rgba(226,84,47,.16)}
   .zone.filled{border-style:solid;border-color:transparent;background:#fff;box-shadow:var(--shadow)}
   .zone.source{border-color:#F2882B;background:rgba(242,136,43,.2);box-shadow:0 0 0 3px rgba(242,136,43,.22)}
-  .zone.small .zlabel{font-size:.5rem}.zone.small .inst svg{width:17px;height:17px}.zone.small .inst b{font-size:.48rem}
-  .zone .inst{display:none;flex-direction:column;align-items:center;gap:3px}
+  .zone.small .zlabel{font-size:.5rem}.zone.small .inst b{font-size:.46rem}
+  .zone .inst{display:none;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;height:100%}
   .zone.filled .inst{display:flex}.zone.filled .zlabel{display:none}
-  .zone .inst svg{width:21px;height:21px;color:var(--brand)}
-  .zone .inst b{font-family:"Saira";font-weight:700;font-size:.58rem;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);line-height:1.05}
+  .zone .inst svg{width:100%;flex:1 1 auto;min-height:0;color:var(--brand)}
+  .zone .inst b{font-family:"Saira";font-weight:700;font-size:.5rem;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);line-height:1;flex:none}
   .tray{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px;min-height:42px}
-  .comp{display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid var(--line-l);border-radius:10px;padding:8px 12px 8px 8px;cursor:grab;touch-action:none;user-select:none;transition:transform .12s,box-shadow .12s,border-color .12s}
+  .comp{display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid var(--line-l);border-radius:10px;padding:8px 12px 8px 8px;cursor:grab;touch-action:pan-y;user-select:none;transition:transform .12s,box-shadow .12s,border-color .12s}
   .comp:focus-visible,.zone:focus-visible,.mode-btn:focus-visible,.stepbtn:focus-visible,.assist:focus-visible{outline:3px solid rgba(44,143,224,.45);outline-offset:2px}
   .comp:hover{border-color:var(--signal);box-shadow:0 8px 18px -10px rgba(44,143,224,.5);transform:translateY(-1px)}
   .comp.cable .ci{background:#fff;border:1px solid var(--line-l)}
@@ -242,8 +246,9 @@
   .lg.ac{background:#8a929a}.lg.dc{background:#F2882B}.lg.fo{background:#2C8FE0}.lg.jp{background:#5FB0D4}.lg.hf{background:#7C4DFF}.lg.mw{background:#14A06F}
   .pro-ring{position:absolute;width:18px;height:18px;border:2px solid var(--signal);border-radius:50%;transform:translate(-50%,-50%) scale(.4);opacity:0;z-index:4;pointer-events:none;animation:proPing 2.2s ease-out infinite}
   @keyframes proPing{0%{transform:translate(-50%,-50%) scale(.4);opacity:.85}70%{opacity:.12}100%{transform:translate(-50%,-50%) scale(5);opacity:0}}
-  @media(max-width:980px){.pro-wrap{grid-template-columns:1fr;gap:22px}.pro-scene{min-height:480px}}
-  @media(max-width:760px){.game-stats{grid-template-columns:1fr}.pro-scene{min-height:430px}.zone .zlabel{font-size:.54rem}.zone .inst b{font-size:.53rem}.comp .ct b{font-size:.76rem}.comp .ct span{font-size:.66rem}.pro-legend{font-size:.66rem;gap:11px}}
+  @media(max-width:980px){.pro-wrap{grid-template-columns:1fr;gap:22px}.pro-scene{aspect-ratio:3/4;max-height:none}}
+  @media(max-width:760px){.game-stats{grid-template-columns:1fr}.pro-scene{aspect-ratio:3/4}.zone .zlabel{font-size:.54rem}.zone .inst b{font-size:.53rem}.comp .ct b{font-size:.76rem}.comp .ct span{font-size:.66rem}.pro-legend{font-size:.66rem;gap:11px}}
+  @media(max-width:520px){.pro-scene{aspect-ratio:2/3}.zone{padding:3px}.zone .zlabel{font-size:.5rem}}
 
   /* ===== Team & Kultur ===== */
   .team-sec{background:#fff;position:relative}
@@ -573,25 +578,35 @@
             <span class="scene-tag">Greenfield · RAN-Aufbau</span>
             <div class="liveBadge" id="proLive">● ON AIR</div>
             <div class="pro-ground"></div>
-            <div class="pro-mast"></div>
+            <div class="pro-mast" id="proMastStruct"><svg viewBox="0 0 32 240" preserveAspectRatio="none" aria-hidden="true">
+              <g fill="none" stroke="#3f5160" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 236 L13 22 M24 236 L19 22"/>
+                <path d="M8 236H24 M8.9 196H23.1 M9.9 156H22.1 M10.8 116H21.2 M11.7 76H20.3 M12.6 40H19.4"/>
+                <path d="M12.6 40 L16 24 L19.4 40 M16 24 V10 M13 26 H19"/>
+              </g>
+              <g fill="none" stroke="#566472" stroke-width="1.4" stroke-linecap="round" opacity=".85">
+                <path d="M8 236 L23.1 196 M24 236 L8.9 196 M8.9 196 L22.1 156 M23.1 196 L9.9 156 M9.9 156 L21.2 116 M22.1 156 L10.8 116 M10.8 116 L20.3 76 M21.2 116 L11.7 76 M11.7 76 L19.4 40 M20.3 76 L12.6 40"/>
+              </g>
+              <circle class="beacon" cx="16" cy="9" r="3" fill="#ff4848"/>
+            </svg></div>
             <svg class="pro-wires" id="proWires" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true"></svg>
-            <div class="zone" id="z-civil" style="left:35%;top:84%;width:34%;height:10%"><span class="zlabel">Greenfield · Fundament</span></div>
-            <div class="zone" id="z-zas" style="left:4%;top:10%;width:20%;height:11%"><span class="zlabel">ZAS · Netz</span></div>
-            <div class="zone" id="z-euv" style="left:4%;top:25%;width:20%;height:11%"><span class="zlabel">EÜV · Übergabe</span></div>
-            <div class="zone" id="z-rack" style="left:4%;top:43%;width:22%;height:16%"><span class="zlabel">Systemrack · BBU/PSU</span></div>
-            <div class="zone" id="z-lwl" style="left:4%;top:68%;width:22%;height:11%"><span class="zlabel">LWL-Abschluss</span></div>
-            <div class="zone" id="z-mast" style="left:58%;top:73%;width:12%;height:10%"><span class="zlabel">Mastfuß</span></div>
-            <div class="zone small" id="z-mw" style="left:74%;top:66%;width:18%;height:10%"><span class="zlabel">Richtfunk</span></div>
-            <div class="zone small" id="z-remote" style="left:89%;top:82%;width:9%;height:8%"><span class="zlabel">Gegenstelle</span></div>
-            <div class="zone small" id="z-rruA" style="left:48%;top:8%;width:15%;height:9%"><span class="zlabel">Radio 4G · A</span></div>
-            <div class="zone small" id="z-antA" style="left:71%;top:8%;width:23%;height:9%"><span class="zlabel">Passive 4G Antenne · A</span></div>
-            <div class="zone small" id="z-aauA" style="left:71%;top:20%;width:23%;height:9%"><span class="zlabel">5G AAU · A</span></div>
-            <div class="zone small" id="z-rruB" style="left:48%;top:32%;width:15%;height:9%"><span class="zlabel">Radio 4G · B</span></div>
-            <div class="zone small" id="z-antB" style="left:71%;top:32%;width:23%;height:9%"><span class="zlabel">Passive 4G Antenne · B</span></div>
-            <div class="zone small" id="z-aauB" style="left:71%;top:44%;width:23%;height:9%"><span class="zlabel">5G AAU · B</span></div>
-            <div class="zone small" id="z-rruC" style="left:48%;top:56%;width:15%;height:9%"><span class="zlabel">Radio 4G · C</span></div>
-            <div class="zone small" id="z-antC" style="left:71%;top:56%;width:23%;height:9%"><span class="zlabel">Passive 4G Antenne · C</span></div>
-            <div class="zone small" id="z-aauC" style="left:71%;top:68%;width:23%;height:9%"><span class="zlabel">5G AAU · C</span></div>
+            <div class="zone" id="z-civil" style="left:40%;top:88%;width:26%;height:9%"><span class="zlabel">Greenfield · Fundament</span></div>
+            <div class="zone" id="z-zas" style="left:3%;top:60%;width:20%;height:9%"><span class="zlabel">ZAS · Netz</span></div>
+            <div class="zone" id="z-euv" style="left:3%;top:70%;width:20%;height:9%"><span class="zlabel">EÜV · Übergabe</span></div>
+            <div class="zone" id="z-rack" style="left:3%;top:80%;width:22%;height:13%"><span class="zlabel">Systemrack · BBU/PSU</span></div>
+            <div class="zone" id="z-lwl" style="left:26%;top:84%;width:14%;height:9%"><span class="zlabel">LWL-Abschluss</span></div>
+            <div class="zone" id="z-mast" style="left:46%;top:78%;width:14%;height:9%"><span class="zlabel">Mastfuß</span></div>
+            <div class="zone small air" id="z-mw" style="left:44%;top:52%;width:16%;height:11%"><span class="zlabel">Richtfunk</span></div>
+            <div class="zone small" id="z-remote" style="left:86%;top:62%;width:12%;height:9%"><span class="zlabel">Gegenstelle</span></div>
+            <div class="zone small air" id="z-rruA" style="left:42%;top:10%;width:13%;height:8%"><span class="zlabel">Radio 4G · A</span></div>
+            <div class="zone small air" id="z-antA" style="left:58%;top:8%;width:18%;height:9%"><span class="zlabel">Passive 4G Antenne · A</span></div>
+            <div class="zone small air" id="z-aauA" style="left:78%;top:8%;width:17%;height:9%"><span class="zlabel">5G AAU · A</span></div>
+            <div class="zone small air" id="z-rruB" style="left:42%;top:24%;width:13%;height:8%"><span class="zlabel">Radio 4G · B</span></div>
+            <div class="zone small air" id="z-antB" style="left:58%;top:22%;width:18%;height:9%"><span class="zlabel">Passive 4G Antenne · B</span></div>
+            <div class="zone small air" id="z-aauB" style="left:78%;top:22%;width:17%;height:9%"><span class="zlabel">5G AAU · B</span></div>
+            <div class="zone small air" id="z-rruC" style="left:42%;top:38%;width:13%;height:8%"><span class="zlabel">Radio 4G · C</span></div>
+            <div class="zone small air" id="z-antC" style="left:58%;top:36%;width:18%;height:9%"><span class="zlabel">Passive 4G Antenne · C</span></div>
+            <div class="zone small air" id="z-aauC" style="left:78%;top:36%;width:17%;height:9%"><span class="zlabel">5G AAU · C</span></div>
           </div>
           <div class="pro-legend">
             <span><i class="lg ac"></i>AC-Zuleitung</span>
@@ -883,21 +898,22 @@
         hintEl=document.getElementById('proHint'),barEl=document.getElementById('proBar'),labelEl=document.getElementById('proLabel'),
         winEl=document.getElementById('proWin'),live=document.getElementById('proLive'),titleEl=document.getElementById('proTitle'),subEl=document.getElementById('proSub'),
         proScoreEl=document.getElementById('proScore'),proTempoEl=document.getElementById('proTempo'),proMistakeEl=document.getElementById('proMistakes'),proAssist=document.getElementById('proAssist');
-    var SVGNS='http://www.w3.org/2000/svg';
+    var SVGNS='http://www.w3.org/2000/svg';var proMastStruct=document.getElementById('proMastStruct');
     var filled={},linked={},selected=null,origLabels={},ready=false,hintTimer=null,proScore=0,proMistakes=0,proStarted=0;
     var ZIDS=['z-civil','z-zas','z-euv','z-rack','z-lwl','z-mast','z-rruA','z-antA','z-aauA','z-rruB','z-antB','z-aauB','z-rruC','z-antC','z-aauC','z-mw','z-remote'];
-    var RICO='<rect x="6" y="5" width="12" height="14" rx="2"/><path d="M10 5v14M14 5v14"/><circle cx="12" cy="12" r="1.4"/>';
-    var PICO='<rect x="8" y="3" width="8" height="16" rx="1.5"/><path d="M5 7h3M5 12h3M16 7h3M16 12h3"/>';
-    var AICO='<rect x="7" y="3" width="10" height="16" rx="2"/><path d="M12 19v2M18 7l2-2M18 12l3-1M18 17l2 2"/>';
-    var CIV='<path d="M4 17h16M6 17l3-7h6l3 7M8 14h8"/>';
+    var VB={civil:'0 0 32 12',zas:'0 0 16 24',euv:'0 0 20 24',rack:'0 0 20 24',lwl:'0 0 20 16',mast:'0 0 16 24',rru:'0 0 16 20',ant:'0 0 10 26',aau:'0 0 22 14',mw:'0 0 24 24'};
+    var RICO='<rect x="3" y="3" width="10" height="14" rx="1.5"/><path d="M5.5 3v14M8 3v14M10.5 3v14"/><rect x="6" y="17.4" width="4" height="2.1" rx="0.5"/>';
+    var PICO='<rect x="2.5" y="2" width="5" height="22" rx="2.2"/><path d="M5 4.5v17"/>';
+    var AICO='<rect x="2" y="2" width="18" height="10" rx="1.5"/><path d="M2 7h18M7 2v10M12 2v10M17 2v10"/>';
+    var CIV='<path d="M3 10L7 3H25L29 10Z"/><path d="M1 10h30"/><path d="M11 3v7M16 3v7M21 3v7"/>';
     var CAB='<path d="M4 12c4-7 12 7 16 0"/><circle cx="4" cy="12" r="2"/><circle cx="20" cy="12" r="2"/>';
     var COMPONENTS=[
       {id:'civil',type:'civil',zone:'z-civil',short:'Fundament',sub:'Greenfield Tiefbau',need:[],ico:CIV},
-      {id:'zas',type:'zas',zone:'z-zas',short:'ZAS',sub:'Netzanschluss',need:['z-civil'],ico:'<rect x="7" y="3" width="10" height="18" rx="1"/><circle cx="12" cy="8.5" r="2.2"/><path d="M9 14h6M9 17h6"/>'},
-      {id:'euv',type:'euv',zone:'z-euv',short:'EÜV',sub:'Energie-Übergabe',need:['z-zas'],ico:'<rect x="4" y="5" width="16" height="14" rx="1"/><path d="M9 5v14M14 5v14"/><circle cx="6.6" cy="9" r="1"/>'},
-      {id:'rack',type:'rack',zone:'z-rack',short:'Rack',sub:'BBU · PSU · Akku',need:['z-euv'],ico:'<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h4"/>'},
-      {id:'lwl',type:'lwl',zone:'z-lwl',short:'LWL',sub:'ODF / Glasfaser',need:['z-rack'],ico:'<path d="M3 12h5M16 12h5"/><circle cx="12" cy="12" r="3.2"/><path d="M12 3v4M12 17v4"/>'},
-      {id:'mast',type:'mast',zone:'z-mast',short:'Mast',sub:'Stahlbau',need:['z-civil'],ico:'<path d="M12 2v20M6 22l6-17 6 17M8 15h8"/>'},
+      {id:'zas',type:'zas',zone:'z-zas',short:'ZAS',sub:'Netzanschluss',need:['z-civil'],ico:'<rect x="3" y="2" width="10" height="20" rx="1.2"/><circle cx="8" cy="8" r="2.4"/><path d="M5 14h6M5 17.5h6"/>'},
+      {id:'euv',type:'euv',zone:'z-euv',short:'EÜV',sub:'Energie-Übergabe',need:['z-zas'],ico:'<rect x="2" y="3" width="16" height="19" rx="1.2"/><path d="M10 3v19M6.5 11v3M13.5 11v3"/>'},
+      {id:'rack',type:'rack',zone:'z-rack',short:'Rack',sub:'BBU · PSU · Akku',need:['z-euv'],ico:'<rect x="3" y="2" width="14" height="20" rx="1.2"/><path d="M6 6h8M6 9.5h8M6 13h8M6 16.5h5"/>'},
+      {id:'lwl',type:'lwl',zone:'z-lwl',short:'LWL',sub:'ODF / Glasfaser',need:['z-rack'],ico:'<rect x="2" y="3" width="16" height="10" rx="1.4"/><path d="M5 8c3-4.5 7 4.5 10 0"/>'},
+      {id:'mast',type:'mast',zone:'z-mast',short:'Mast',sub:'Stahlbau',need:['z-civil'],ico:'<path d="M4 22L6.5 4M12 22L9.5 4"/><path d="M4.6 17h6.8M5.5 11h5M6.4 6h3.2"/><rect x="2.5" y="21.5" width="11" height="2.2" rx="0.5"/>'},
       {id:'rruA',type:'rru',zone:'z-rruA',short:'RRU A',sub:'4G Radio',need:['z-mast','z-rack','z-lwl'],ico:RICO},
       {id:'antA',type:'ant',zone:'z-antA',short:'ANT A',sub:'Passive 4G',need:['z-rruA'],ico:PICO},
       {id:'aauA',type:'aau',zone:'z-aauA',short:'AAU A',sub:'Aktive 5G',need:['z-rruA'],ico:AICO},
@@ -907,7 +923,7 @@
       {id:'rruC',type:'rru',zone:'z-rruC',short:'RRU C',sub:'4G Radio',need:['z-mast','z-rack','z-lwl'],ico:RICO},
       {id:'antC',type:'ant',zone:'z-antC',short:'ANT C',sub:'Passive 4G',need:['z-rruC'],ico:PICO},
       {id:'aauC',type:'aau',zone:'z-aauC',short:'AAU C',sub:'Aktive 5G',need:['z-rruC'],ico:AICO},
-      {id:'mw',type:'mw',zone:'z-mw',short:'MW',sub:'Richtfunk',need:['z-mast','z-rack'],ico:'<circle cx="12" cy="12" r="5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>'}
+      {id:'mw',type:'mw',zone:'z-mw',short:'MW',sub:'Richtfunk',need:['z-mast','z-rack'],ico:'<ellipse cx="10.5" cy="12" rx="7" ry="8"/><path d="M10.5 12L20 8.5"/><circle cx="20.6" cy="8.2" r="1.5"/>'}
     ];
     var CABLES=[
       {id:'ac1',kind:'ac',short:'AC',sub:'ZAS → EÜV',from:'z-zas',to:'z-euv',need:['z-zas','z-euv'],color:'#8a929a'},
@@ -959,7 +975,7 @@
         var isCable=!!item.from,el=document.createElement('div');
         el.className='comp'+(isCable?' cable':'');el.setAttribute('tabindex','0');el.setAttribute('role','button');
         el.setAttribute('aria-label',(isCable?'Kabel ':'Bauteil ')+item.short+' '+item.sub+' auswählen');
-        el.innerHTML='<span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+(isCable?CAB:item.ico)+'</svg></span><span class="ct"><b>'+item.short+'</b><span>'+item.sub+'</span></span>';
+        el.innerHTML='<span class="ci"><svg viewBox="'+(isCable?'0 0 24 24':(VB[item.type]||'0 0 24 24'))+'" preserveAspectRatio="xMidYMid meet" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(isCable?CAB:item.ico)+'</svg></span><span class="ct"><b>'+item.short+'</b><span>'+item.sub+'</span></span>';
         attachChip(el,isCable?'cable':'component',item);tray.appendChild(el);
       });
     }
@@ -971,9 +987,11 @@
           r.innerHTML='<span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span><span>'+((c&&c.sub)?c.sub:(c&&c.short)||id)+'</span>';checkEl.appendChild(r);});
       });
     }
+    function syncScene(){var m=!!filled['z-mast'];if(proMastStruct)proMastStruct.classList.toggle('show',m);scene.classList.toggle('has-mast',m);}
     function progress(){
       updateStats();
       Array.prototype.forEach.call(checkEl.querySelectorAll('.chk'),function(r){var id=r.id.replace('chk-','');r.classList.toggle('done',id.indexOf('z-')===0?!!filled[id]:!!linked[id]);});
+      syncScene();
     }
     function prereqMsg(c){
       var missing=c.need.filter(function(n){return !reqDone(n);}).map(function(n){if(n.indexOf('z-')===0){var z=document.getElementById(n);return z?(z.querySelector('.zlabel')||z).textContent:n;}return (CABLE_BY_ID[n]&&CABLE_BY_ID[n].sub)||n;});
@@ -989,7 +1007,7 @@
       else hint('Kabel auswählen: zuerst Quelle '+zoneName(item.from)+' anklicken, danach Ziel '+(item.to?zoneName(item.to):'Gegenstelle')+'.');
     }
     function zoneName(id){var z=document.getElementById(id);return z?(z.querySelector('.zlabel')||z).textContent:id;}
-    function placeDom(z,c){z.classList.add('filled');z.innerHTML='<span class="inst"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+c.ico+'</svg><b>'+c.short+'</b></span>';}
+    function placeDom(z,c){z.classList.add('filled');z.setAttribute('data-type',c.type);z.innerHTML='<span class="inst"><svg viewBox="'+(VB[c.type]||'0 0 24 24')+'" preserveAspectRatio="xMidYMid meet" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+c.ico+'</svg><b>'+c.short+'</b></span>';}
     function tryPlaceComponent(c,chip,z){
       start();
       if(filled[z.id]){penalize('Hier ist schon ein Element montiert.',z);return;}
@@ -1020,11 +1038,15 @@
     function attachChip(chip,kind,item){
       chip.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectItem(kind,item,chip);}});
       chip.addEventListener('pointerdown',function(ev){
-        ev.preventDefault();
+        if(ev.button)return;
         var sx=ev.clientX,sy=ev.clientY,dragging=false,ghost=null;
-        function move(e){var dx=e.clientX-sx,dy=e.clientY-sy;if(!dragging&&(Math.abs(dx)+Math.abs(dy))>6){dragging=true;selectItem(kind,item,chip);ghost=chip.cloneNode(true);ghost.classList.add('ghost');ghost.style.width=chip.offsetWidth+'px';document.body.appendChild(ghost);chip.style.opacity='.35';}if(dragging){ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';hl(e.clientX,e.clientY,kind,item);}}
-        function up(e){document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);if(dragging){chip.style.opacity='';if(ghost)ghost.remove();clearHl();var z=zoneAt(e.clientX,e.clientY);if(z){if(kind==='component')tryPlaceComponent(item,chip,z);else tryCableClick(item,z);}}else{selectItem(kind,item,chip);}}
-        document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);
+        function move(e){var dx=e.clientX-sx,dy=e.clientY-sy;
+          if(!dragging){if(Math.abs(dx)+Math.abs(dy)<=9)return;dragging=true;selectItem(kind,item,chip);ghost=chip.cloneNode(true);ghost.classList.add('ghost');ghost.style.width=chip.offsetWidth+'px';document.body.appendChild(ghost);chip.style.opacity='.35';}
+          e.preventDefault();ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';hl(e.clientX,e.clientY,kind,item);}
+        function done(){document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);document.removeEventListener('pointercancel',cancel);}
+        function up(e){done();if(dragging){chip.style.opacity='';if(ghost)ghost.remove();clearHl();var z=zoneAt(e.clientX,e.clientY);if(z){if(kind==='component')tryPlaceComponent(item,chip,z);else tryCableClick(item,z);}}else{selectItem(kind,item,chip);}}
+        function cancel(){done();if(dragging){chip.style.opacity='';if(ghost)ghost.remove();clearHl();}}
+        document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);document.addEventListener('pointercancel',cancel);
       });
     }
     function ringFx(){['12%','32%','56%'].forEach(function(tp){var r=document.createElement('div');r.className='pro-ring';r.style.left='84%';r.style.top=tp;scene.appendChild(r);});}
@@ -1035,7 +1057,7 @@
       if(!ready){
         ZIDS.forEach(function(zid){var z=document.getElementById(zid),lab=z.querySelector('.zlabel');origLabels[zid]=lab?lab.textContent:'';z.setAttribute('tabindex','0');z.setAttribute('role','button');z.setAttribute('aria-label',(lab?lab.textContent:zid)+' Montageposition');z.addEventListener('click',function(){if(!selected)return;if(selected.kind==='component')tryPlaceComponent(selected.item,selected.chip,z);else tryCableClick(selected.item,z);});z.addEventListener('keydown',function(ev){if((ev.key==='Enter'||ev.key===' ')&&selected){ev.preventDefault();if(selected.kind==='component')tryPlaceComponent(selected.item,selected.chip,z);else tryCableClick(selected.item,z);}});});
         buildTray();buildCheck();proAssist.addEventListener('click',function(){var n=nextTask();if(!n)return;if(n.kind==='component'){var z=document.getElementById(n.item.zone);z.classList.add('ok');hint('Nächster Einbau: '+n.item.short+' an '+zoneName(n.item.zone)+'.');setTimeout(function(){z.classList.remove('ok');},1500);}else{var zf=document.getElementById(n.item.from);zf.classList.add('ok');hint('Nächstes Kabel: '+n.item.sub+' – Quelle zuerst anklicken.');setTimeout(function(){zf.classList.remove('ok');},1500);}});
-        document.getElementById('proReset').addEventListener('click',reset);window.addEventListener('resize',function(){if(!document.getElementById('modePro').hidden)drawWires();});ready=true;
+        document.getElementById('proReset').addEventListener('click',reset);var redraw=function(){if(!document.getElementById('modePro').hidden)drawWires();};window.addEventListener('resize',redraw);window.addEventListener('orientationchange',function(){setTimeout(redraw,150);});ready=true;
       }
       progress();drawWires();
     }
