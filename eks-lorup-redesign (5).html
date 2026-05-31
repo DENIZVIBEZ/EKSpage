@@ -208,6 +208,8 @@
   .zone.ok{border-color:var(--signal);background:rgba(44,143,224,.18);box-shadow:0 0 0 3px rgba(44,143,224,.2)}
   .zone.bad{border-color:#E2542F;background:rgba(226,84,47,.16)}
   .zone.filled{border-style:solid;border-color:transparent;background:#fff;box-shadow:var(--shadow)}
+  .zone.source{border-color:#F2882B;background:rgba(242,136,43,.2);box-shadow:0 0 0 3px rgba(242,136,43,.22)}
+  .zone.small .zlabel{font-size:.5rem}.zone.small .inst svg{width:17px;height:17px}.zone.small .inst b{font-size:.48rem}
   .zone .inst{display:none;flex-direction:column;align-items:center;gap:3px}
   .zone.filled .inst{display:flex}.zone.filled .zlabel{display:none}
   .zone .inst svg{width:21px;height:21px;color:var(--brand)}
@@ -216,6 +218,8 @@
   .comp{display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid var(--line-l);border-radius:10px;padding:8px 12px 8px 8px;cursor:grab;touch-action:none;user-select:none;transition:transform .12s,box-shadow .12s,border-color .12s}
   .comp:focus-visible,.zone:focus-visible,.mode-btn:focus-visible,.stepbtn:focus-visible,.assist:focus-visible{outline:3px solid rgba(44,143,224,.45);outline-offset:2px}
   .comp:hover{border-color:var(--signal);box-shadow:0 8px 18px -10px rgba(44,143,224,.5);transform:translateY(-1px)}
+  .comp.cable .ci{background:#fff;border:1px solid var(--line-l)}
+  .comp.cable .ci svg{color:var(--brand)}
   .comp:active{cursor:grabbing}
   .comp.selected{border-color:var(--signal);box-shadow:0 0 0 3px rgba(44,143,224,.25)}
   .comp .ci{width:34px;height:34px;flex:none;border-radius:8px;background:var(--steel);display:grid;place-items:center}
@@ -235,7 +239,7 @@
   .pro-legend{display:flex;flex-wrap:wrap;gap:16px;padding:11px 15px;background:var(--concrete-2);border:1px solid var(--line-l);border-radius:12px;font-family:"Saira";font-weight:600;font-size:.73rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft)}
   .pro-legend span{display:inline-flex;align-items:center;gap:7px}
   .pro-legend .lg{width:18px;height:3px;border-radius:2px;display:inline-block}
-  .lg.ac{background:#8a929a}.lg.dc{background:#F2882B}.lg.fo{background:#2C8FE0}.lg.jp{background:#5FB0D4}
+  .lg.ac{background:#8a929a}.lg.dc{background:#F2882B}.lg.fo{background:#2C8FE0}.lg.jp{background:#5FB0D4}.lg.hf{background:#7C4DFF}.lg.mw{background:#14A06F}
   .pro-ring{position:absolute;width:18px;height:18px;border:2px solid var(--signal);border-radius:50%;transform:translate(-50%,-50%) scale(.4);opacity:0;z-index:4;pointer-events:none;animation:proPing 2.2s ease-out infinite}
   @keyframes proPing{0%{transform:translate(-50%,-50%) scale(.4);opacity:.85}70%{opacity:.12}100%{transform:translate(-50%,-50%) scale(5);opacity:0}}
   @media(max-width:980px){.pro-wrap{grid-template-columns:1fr;gap:22px}.pro-scene{min-height:480px}}
@@ -566,34 +570,42 @@
       <div class="pro-wrap">
         <div class="pro-stage">
           <div class="pro-scene" id="proScene">
-            <span class="scene-tag">Standort · Profi-Aufbau</span>
-            <div class="liveBadge" id="proLive">● LIVE</div>
+            <span class="scene-tag">Greenfield · RAN-Aufbau</span>
+            <div class="liveBadge" id="proLive">● ON AIR</div>
             <div class="pro-ground"></div>
             <div class="pro-mast"></div>
             <svg class="pro-wires" id="proWires" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true"></svg>
-            <div class="zone" id="z-zas" style="left:4%;top:11%;width:24%;height:13%"><span class="zlabel">Zählerabschluss-Säule</span></div>
-            <div class="zone" id="z-euv" style="left:4%;top:29%;width:24%;height:13%"><span class="zlabel">EÜV · Übergabe</span></div>
-            <div class="zone" id="z-svr" style="left:4%;top:48%;width:24%;height:17%"><span class="zlabel">SV-Rack</span></div>
-            <div class="zone" id="z-lwl" style="left:4%;top:71%;width:24%;height:13%"><span class="zlabel">LWL-Übergabe</span></div>
-            <div class="zone" id="z-rruA" style="left:50%;top:9%;width:17%;height:12%"><span class="zlabel">RRU · Sektor A</span></div>
-            <div class="zone" id="z-aauA" style="left:72%;top:9%;width:23%;height:12%"><span class="zlabel">Aktive Antenne · A</span></div>
-            <div class="zone" id="z-rruB" style="left:50%;top:27%;width:17%;height:12%"><span class="zlabel">RRU · Sektor B</span></div>
-            <div class="zone" id="z-aauB" style="left:72%;top:27%;width:23%;height:12%"><span class="zlabel">Aktive Antenne · B</span></div>
-            <div class="zone" id="z-rruC" style="left:50%;top:45%;width:17%;height:12%"><span class="zlabel">RRU · Sektor C</span></div>
-            <div class="zone" id="z-aauC" style="left:72%;top:45%;width:23%;height:12%"><span class="zlabel">Aktive Antenne · C</span></div>
+            <div class="zone" id="z-civil" style="left:35%;top:84%;width:34%;height:10%"><span class="zlabel">Greenfield · Fundament</span></div>
+            <div class="zone" id="z-zas" style="left:4%;top:10%;width:20%;height:11%"><span class="zlabel">ZAS · Netz</span></div>
+            <div class="zone" id="z-euv" style="left:4%;top:25%;width:20%;height:11%"><span class="zlabel">EÜV · Übergabe</span></div>
+            <div class="zone" id="z-rack" style="left:4%;top:43%;width:22%;height:16%"><span class="zlabel">Systemrack · BBU/PSU</span></div>
+            <div class="zone" id="z-lwl" style="left:4%;top:68%;width:22%;height:11%"><span class="zlabel">LWL-Abschluss</span></div>
+            <div class="zone" id="z-mast" style="left:58%;top:73%;width:12%;height:10%"><span class="zlabel">Mastfuß</span></div>
+            <div class="zone small" id="z-mw" style="left:74%;top:66%;width:18%;height:10%"><span class="zlabel">Richtfunk</span></div>
+            <div class="zone small" id="z-remote" style="left:89%;top:82%;width:9%;height:8%"><span class="zlabel">Gegenstelle</span></div>
+            <div class="zone small" id="z-rruA" style="left:48%;top:8%;width:15%;height:9%"><span class="zlabel">Radio 4G · A</span></div>
+            <div class="zone small" id="z-antA" style="left:71%;top:8%;width:23%;height:9%"><span class="zlabel">Passive 4G Antenne · A</span></div>
+            <div class="zone small" id="z-aauA" style="left:71%;top:20%;width:23%;height:9%"><span class="zlabel">5G AAU · A</span></div>
+            <div class="zone small" id="z-rruB" style="left:48%;top:32%;width:15%;height:9%"><span class="zlabel">Radio 4G · B</span></div>
+            <div class="zone small" id="z-antB" style="left:71%;top:32%;width:23%;height:9%"><span class="zlabel">Passive 4G Antenne · B</span></div>
+            <div class="zone small" id="z-aauB" style="left:71%;top:44%;width:23%;height:9%"><span class="zlabel">5G AAU · B</span></div>
+            <div class="zone small" id="z-rruC" style="left:48%;top:56%;width:15%;height:9%"><span class="zlabel">Radio 4G · C</span></div>
+            <div class="zone small" id="z-antC" style="left:71%;top:56%;width:23%;height:9%"><span class="zlabel">Passive 4G Antenne · C</span></div>
+            <div class="zone small" id="z-aauC" style="left:71%;top:68%;width:23%;height:9%"><span class="zlabel">5G AAU · C</span></div>
           </div>
           <div class="pro-legend">
-            <span><i class="lg ac"></i>AC-Energie</span>
-            <span><i class="lg dc"></i>DC-Versorgung</span>
+            <span><i class="lg ac"></i>AC-Zuleitung</span>
+            <span><i class="lg dc"></i>DC-Power</span>
             <span><i class="lg fo"></i>LWL / CPRI</span>
-            <span><i class="lg jp"></i>Antennen-Jumper</span>
+            <span><i class="lg hf"></i>HF-Jumper</span>
+            <span><i class="lg mw"></i>Richtfunk-Link</span>
           </div>
         </div>
         <div class="ctrl pro-ctrl">
-          <h3 id="proTitle">Bau die Station – Profimodus</h3>
-          <p class="sub" id="proSub">Zieh jedes Bauteil an seinen Platz – oder tippe es an und dann auf die Position. Die Reihenfolge zählt: erst die Energie, dann die Glasfaser, dann je Sektor RRU und aktive Antenne.</p>
+          <h3 id="proTitle">RAN-System aufbauen – Profimodus</h3>
+          <p class="sub" id="proSub">Starte auf der grünen Wiese: Fundament, Energie, Systemrack, LWL und Mast. Danach werden Radios, passive 4G-Antennen, 5G-AAUs und Richtfunk montiert. Kabel ziehst du logisch von Quelle zu Ziel.</p>
           <div class="prog"><i id="proBar"></i></div>
-          <div class="prog-label" id="proLabel">0 von 10 Bauteilen</div>
+          <div class="prog-label" id="proLabel">0 von 36 Aufgaben</div>
           <div class="game-stats" aria-label="Profi-Spielstand">
             <div class="stat-pill"><span>Punkte</span><b id="proScore">0</b></div>
             <div class="stat-pill"><span>Tempo</span><b id="proTempo">Start</b></div>
@@ -604,8 +616,8 @@
           <div class="checklist" id="proCheck"></div>
           <div class="hint" id="proHint"></div>
           <div class="win" id="proWin">
-            <span class="tag">Station am Netz!</span>
-            <p>Vom Netzanschluss bis zur aktiven Antenne – alles steht und ist verkabelt. Genau das baut unser Team in echt, an jedem Standort.</p>
+            <span class="tag">RAN on air!</span>
+            <p>Greenfield, Energie, Transport, 4G/5G-Sektoren, Richtfunk und alle Feeder/Jumper sind korrekt verbunden.</p>
             <a class="btn btn-signal" href="#karriere">Zur Karriere
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </div>
@@ -863,7 +875,7 @@
 
   render();
 
-  /* ===== Profimodus: Drag & Drop Stationsbau ===== */
+  /* ===== Profimodus: Greenfield RAN-Aufbau ===== */
   (function(){
     var scene=document.getElementById('proScene');
     if(!scene)return;
@@ -872,149 +884,158 @@
         winEl=document.getElementById('proWin'),live=document.getElementById('proLive'),titleEl=document.getElementById('proTitle'),subEl=document.getElementById('proSub'),
         proScoreEl=document.getElementById('proScore'),proTempoEl=document.getElementById('proTempo'),proMistakeEl=document.getElementById('proMistakes'),proAssist=document.getElementById('proAssist');
     var SVGNS='http://www.w3.org/2000/svg';
-    var filled={},selected=null,origLabels={},ready=false,hintTimer=null,proScore=0,proMistakes=0,proStarted=0;
-    var ZIDS=['z-zas','z-euv','z-svr','z-lwl','z-rruA','z-aauA','z-rruB','z-aauB','z-rruC','z-aauC'];
-    var RICO='<rect x="6" y="5" width="12" height="14" rx="2"/><path d="M10 5v14M14 5v14"/>';
-    var AICO='<rect x="8" y="3" width="8" height="15" rx="1.5"/><path d="M12 18v3M17 7l2-1M17 11l2-1M17 15l2-1"/>';
-    var PCOMP=[
-      {id:'zas',type:'zas',short:'ZAS',sub:'Netzanschluss',ico:'<rect x="7" y="3" width="10" height="18" rx="1"/><circle cx="12" cy="8.5" r="2.2"/><path d="M9 14h6M9 17h6"/>'},
-      {id:'euv',type:'euv',short:'EÜV',sub:'Energie-Übergabe',ico:'<rect x="4" y="5" width="16" height="14" rx="1"/><path d="M9 5v14M14 5v14"/><circle cx="6.6" cy="9" r="1"/>'},
-      {id:'svr',type:'svr',short:'SV-Rack',sub:'BBU · Gleichrichter · Akku',ico:'<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h4"/>'},
-      {id:'lwl',type:'lwl',short:'LWL',sub:'Glasfaser-Backhaul',ico:'<path d="M3 12h5M16 12h5"/><circle cx="12" cy="12" r="3.2"/><path d="M12 3v4M12 17v4"/>'},
-      {id:'rru1',type:'rru',short:'RRU',sub:'Remote Radio Unit',ico:RICO},
-      {id:'rru2',type:'rru',short:'RRU',sub:'Remote Radio Unit',ico:RICO},
-      {id:'rru3',type:'rru',short:'RRU',sub:'Remote Radio Unit',ico:RICO},
-      {id:'aau1',type:'aau',short:'AAU',sub:'Aktive Air-Antenne',ico:AICO},
-      {id:'aau2',type:'aau',short:'AAU',sub:'Aktive Air-Antenne',ico:AICO},
-      {id:'aau3',type:'aau',short:'AAU',sub:'Aktive Air-Antenne',ico:AICO}
+    var filled={},linked={},selected=null,origLabels={},ready=false,hintTimer=null,proScore=0,proMistakes=0,proStarted=0;
+    var ZIDS=['z-civil','z-zas','z-euv','z-rack','z-lwl','z-mast','z-rruA','z-antA','z-aauA','z-rruB','z-antB','z-aauB','z-rruC','z-antC','z-aauC','z-mw','z-remote'];
+    var RICO='<rect x="6" y="5" width="12" height="14" rx="2"/><path d="M10 5v14M14 5v14"/><circle cx="12" cy="12" r="1.4"/>';
+    var PICO='<rect x="8" y="3" width="8" height="16" rx="1.5"/><path d="M5 7h3M5 12h3M16 7h3M16 12h3"/>';
+    var AICO='<rect x="7" y="3" width="10" height="16" rx="2"/><path d="M12 19v2M18 7l2-2M18 12l3-1M18 17l2 2"/>';
+    var CIV='<path d="M4 17h16M6 17l3-7h6l3 7M8 14h8"/>';
+    var CAB='<path d="M4 12c4-7 12 7 16 0"/><circle cx="4" cy="12" r="2"/><circle cx="20" cy="12" r="2"/>';
+    var COMPONENTS=[
+      {id:'civil',type:'civil',zone:'z-civil',short:'Fundament',sub:'Greenfield Tiefbau',need:[],ico:CIV},
+      {id:'zas',type:'zas',zone:'z-zas',short:'ZAS',sub:'Netzanschluss',need:['z-civil'],ico:'<rect x="7" y="3" width="10" height="18" rx="1"/><circle cx="12" cy="8.5" r="2.2"/><path d="M9 14h6M9 17h6"/>'},
+      {id:'euv',type:'euv',zone:'z-euv',short:'EÜV',sub:'Energie-Übergabe',need:['z-zas'],ico:'<rect x="4" y="5" width="16" height="14" rx="1"/><path d="M9 5v14M14 5v14"/><circle cx="6.6" cy="9" r="1"/>'},
+      {id:'rack',type:'rack',zone:'z-rack',short:'Rack',sub:'BBU · PSU · Akku',need:['z-euv'],ico:'<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h4"/>'},
+      {id:'lwl',type:'lwl',zone:'z-lwl',short:'LWL',sub:'ODF / Glasfaser',need:['z-rack'],ico:'<path d="M3 12h5M16 12h5"/><circle cx="12" cy="12" r="3.2"/><path d="M12 3v4M12 17v4"/>'},
+      {id:'mast',type:'mast',zone:'z-mast',short:'Mast',sub:'Stahlbau',need:['z-civil'],ico:'<path d="M12 2v20M6 22l6-17 6 17M8 15h8"/>'},
+      {id:'rruA',type:'rru',zone:'z-rruA',short:'RRU A',sub:'4G Radio',need:['z-mast','z-rack','z-lwl'],ico:RICO},
+      {id:'antA',type:'ant',zone:'z-antA',short:'ANT A',sub:'Passive 4G',need:['z-rruA'],ico:PICO},
+      {id:'aauA',type:'aau',zone:'z-aauA',short:'AAU A',sub:'Aktive 5G',need:['z-rruA'],ico:AICO},
+      {id:'rruB',type:'rru',zone:'z-rruB',short:'RRU B',sub:'4G Radio',need:['z-mast','z-rack','z-lwl'],ico:RICO},
+      {id:'antB',type:'ant',zone:'z-antB',short:'ANT B',sub:'Passive 4G',need:['z-rruB'],ico:PICO},
+      {id:'aauB',type:'aau',zone:'z-aauB',short:'AAU B',sub:'Aktive 5G',need:['z-rruB'],ico:AICO},
+      {id:'rruC',type:'rru',zone:'z-rruC',short:'RRU C',sub:'4G Radio',need:['z-mast','z-rack','z-lwl'],ico:RICO},
+      {id:'antC',type:'ant',zone:'z-antC',short:'ANT C',sub:'Passive 4G',need:['z-rruC'],ico:PICO},
+      {id:'aauC',type:'aau',zone:'z-aauC',short:'AAU C',sub:'Aktive 5G',need:['z-rruC'],ico:AICO},
+      {id:'mw',type:'mw',zone:'z-mw',short:'MW',sub:'Richtfunk',need:['z-mast','z-rack'],ico:'<circle cx="12" cy="12" r="5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>'}
     ];
-    var ZONES={
-      'z-zas':{type:'zas',need:[]},'z-euv':{type:'euv',need:['z-zas']},'z-svr':{type:'svr',need:['z-euv']},'z-lwl':{type:'lwl',need:['z-svr']},
-      'z-rruA':{type:'rru',need:['z-svr','z-lwl']},'z-rruB':{type:'rru',need:['z-svr','z-lwl']},'z-rruC':{type:'rru',need:['z-svr','z-lwl']},
-      'z-aauA':{type:'aau',need:['z-rruA']},'z-aauB':{type:'aau',need:['z-rruB']},'z-aauC':{type:'aau',need:['z-rruC']}
-    };
-    var PCHECK=[['Energie',[['z-zas','Zählerabschluss-Säule'],['z-euv','EÜV'],['z-svr','SV-Rack']]],['Transport',[['z-lwl','LWL-Übergabe']]],
-      ['Sektor A',[['z-rruA','RRU'],['z-aauA','Aktive Antenne']]],['Sektor B',[['z-rruB','RRU'],['z-aauB','Aktive Antenne']]],['Sektor C',[['z-rruC','RRU'],['z-aauC','Aktive Antenne']]]];
-    var TYPENICE={zas:'die Zählerabschluss-Säule',euv:'der EÜV',svr:'das SV-Rack',lwl:'die LWL-Übergabe',rru:'eine RRU',aau:'eine aktive Antenne'};
+    var CABLES=[
+      {id:'ac1',kind:'ac',short:'AC',sub:'ZAS → EÜV',from:'z-zas',to:'z-euv',need:['z-zas','z-euv'],color:'#8a929a'},
+      {id:'ac2',kind:'ac',short:'AC',sub:'EÜV → Rack',from:'z-euv',to:'z-rack',need:['z-euv','z-rack'],color:'#8a929a'},
+      {id:'fo0',kind:'fo',short:'LWL',sub:'ODF → Rack',from:'z-lwl',to:'z-rack',need:['z-lwl','z-rack'],color:'#2C8FE0',dash:'6 5'},
+      {id:'dcA',kind:'dc',short:'DC',sub:'Rack → RRU A',from:'z-rack',to:'z-rruA',need:['z-rack','z-rruA'],color:'#F2882B'},
+      {id:'foA',kind:'fo',short:'LWL',sub:'Rack → RRU A',from:'z-rack',to:'z-rruA',need:['z-rack','z-rruA','dcA'],color:'#2C8FE0',dash:'6 5',off:4},
+      {id:'hfA',kind:'hf',short:'HF',sub:'RRU A → 4G ANT',from:'z-rruA',to:'z-antA',need:['z-rruA','z-antA'],color:'#7C4DFF'},
+      {id:'dcAa',kind:'dc',short:'DC',sub:'Rack → AAU A',from:'z-rack',to:'z-aauA',need:['z-rack','z-aauA'],color:'#F2882B',off:-4},
+      {id:'foAa',kind:'fo',short:'LWL',sub:'Rack → AAU A',from:'z-rack',to:'z-aauA',need:['z-rack','z-aauA','dcAa'],color:'#2C8FE0',dash:'6 5',off:4},
+      {id:'dcB',kind:'dc',short:'DC',sub:'Rack → RRU B',from:'z-rack',to:'z-rruB',need:['z-rack','z-rruB'],color:'#F2882B'},
+      {id:'foB',kind:'fo',short:'LWL',sub:'Rack → RRU B',from:'z-rack',to:'z-rruB',need:['z-rack','z-rruB','dcB'],color:'#2C8FE0',dash:'6 5',off:4},
+      {id:'hfB',kind:'hf',short:'HF',sub:'RRU B → 4G ANT',from:'z-rruB',to:'z-antB',need:['z-rruB','z-antB'],color:'#7C4DFF'},
+      {id:'dcBa',kind:'dc',short:'DC',sub:'Rack → AAU B',from:'z-rack',to:'z-aauB',need:['z-rack','z-aauB'],color:'#F2882B',off:-4},
+      {id:'foBa',kind:'fo',short:'LWL',sub:'Rack → AAU B',from:'z-rack',to:'z-aauB',need:['z-rack','z-aauB','dcBa'],color:'#2C8FE0',dash:'6 5',off:4},
+      {id:'dcC',kind:'dc',short:'DC',sub:'Rack → RRU C',from:'z-rack',to:'z-rruC',need:['z-rack','z-rruC'],color:'#F2882B'},
+      {id:'foC',kind:'fo',short:'LWL',sub:'Rack → RRU C',from:'z-rack',to:'z-rruC',need:['z-rack','z-rruC','dcC'],color:'#2C8FE0',dash:'6 5',off:4},
+      {id:'hfC',kind:'hf',short:'HF',sub:'RRU C → 4G ANT',from:'z-rruC',to:'z-antC',need:['z-rruC','z-antC'],color:'#7C4DFF'},
+      {id:'dcCa',kind:'dc',short:'DC',sub:'Rack → AAU C',from:'z-rack',to:'z-aauC',need:['z-rack','z-aauC'],color:'#F2882B',off:-4},
+      {id:'foCa',kind:'fo',short:'LWL',sub:'Rack → AAU C',from:'z-rack',to:'z-aauC',need:['z-rack','z-aauC','dcCa'],color:'#2C8FE0',dash:'6 5',off:4},
+      {id:'mwData',kind:'mw',short:'IF',sub:'Rack → Richtfunk',from:'z-rack',to:'z-mw',need:['z-rack','z-mw'],color:'#14A06F',dash:'4 4'},
+      {id:'mwAir',kind:'mw',short:'MW',sub:'Richtfunk → Gegenstelle',from:'z-mw',to:'z-remote',need:['mwData'],color:'#14A06F',dash:'3 6'}
+    ];
+    var TOTAL=COMPONENTS.length+CABLES.length;
+    var CABLE_BY_ID={};CABLES.forEach(function(c){CABLE_BY_ID[c.id]=c;});
+    var COMP_BY_ZONE={};COMPONENTS.forEach(function(c){COMP_BY_ZONE[c.zone]=c;});
+    var TYPENICE={civil:'das Fundament',zas:'die Zählerabschluss-Säule',euv:'der EÜV',rack:'das Systemrack',lwl:'der LWL-Abschluss',mast:'der Mast',rru:'eine 4G RRU',ant:'eine passive 4G Antenne',aau:'eine aktive 5G AAU',mw:'die Richtfunk-Schüssel'};
 
+    function doneCount(){var n=0,k;for(k in filled)n++;for(k in linked)n++;return n;}
+    function compDone(z){return !!filled[z];}
+    function reqDone(id){return id.indexOf('z-')===0?compDone(id):!!linked[id];}
+    function needsMet(arr){return arr.every(reqDone);}
+    function usedCompIds(){var u={};for(var z in filled)u[filled[z]]=1;return u;}
+    function openComponents(){return COMPONENTS.filter(function(c){return !filled[c.zone]&&needsMet(c.need);});}
+    function openCables(){return CABLES.filter(function(c){return !linked[c.id]&&needsMet(c.need);});}
+    function nextTask(){var c=openComponents()[0];if(c)return {kind:'component',item:c};var l=openCables()[0];return l?{kind:'cable',item:l}:null;}
     function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
-    function count(){var n=0;for(var k in filled)n++;return n;}
-    function usedIds(){var u={};for(var z in filled)u[filled[z]]=1;return u;}
-    function needMet(zid){return ZONES[zid].need.every(function(n){return !!filled[n];});}
-    function openZones(){return ZIDS.filter(function(z){return !filled[z]&&needMet(z);});}
-    function nextOpenZone(){var z=openZones()[0];return z?document.getElementById(z):null;}
-    function proUpdateStats(){var n=count(),elapsed=proStarted?Math.max(1,Math.round((Date.now()-proStarted)/1000)):0;proScoreEl.textContent=proScore;proMistakeEl.textContent=proMistakes;proTempoEl.textContent=n===0?'Start':elapsed+'s';}
+    function updateStats(){var n=doneCount(),elapsed=proStarted?Math.max(1,Math.round((Date.now()-proStarted)/1000)):0;barEl.style.width=(n/TOTAL*100)+'%';labelEl.textContent=n+' von '+TOTAL+' Aufgaben';proScoreEl.textContent=proScore;proMistakeEl.textContent=proMistakes;proTempoEl.textContent=n===0?'Start':elapsed+'s';}
+    function hint(t){hintEl.textContent=t;hintEl.classList.add('on');if(hintTimer)clearTimeout(hintTimer);hintTimer=setTimeout(function(){hintEl.classList.remove('on');},5200);}
+    function penalize(t,z){proMistakes++;proScore=Math.max(0,proScore-20);updateStats();hint(t);if(z)flashBad(z);}
+    function start(){if(!proStarted)proStarted=Date.now();}
 
     function buildTray(){
-      tray.innerHTML='';var used=usedIds();
-      shuffle(PCOMP.filter(function(c){return !used[c.id];})).forEach(function(c){
-        var el=document.createElement('div');el.className='comp';el.setAttribute('tabindex','0');el.setAttribute('role','button');el.setAttribute('aria-label',c.short+' '+c.sub+' auswählen');
-        el.innerHTML='<span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+c.ico+'</svg></span><span class="ct"><b>'+c.short+'</b><span>'+c.sub+'</span></span>';
-        attachChip(el,c);tray.appendChild(el);
+      tray.innerHTML='';
+      var used=usedCompIds();
+      var comps=shuffle(COMPONENTS.filter(function(c){return !used[c.id];}));
+      var cables=shuffle(CABLES.filter(function(c){return !linked[c.id];}));
+      comps.concat(cables).forEach(function(item){
+        var isCable=!!item.from,el=document.createElement('div');
+        el.className='comp'+(isCable?' cable':'');el.setAttribute('tabindex','0');el.setAttribute('role','button');
+        el.setAttribute('aria-label',(isCable?'Kabel ':'Bauteil ')+item.short+' '+item.sub+' auswählen');
+        el.innerHTML='<span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+(isCable?CAB:item.ico)+'</svg></span><span class="ct"><b>'+item.short+'</b><span>'+item.sub+'</span></span>';
+        attachChip(el,isCable?'cable':'component',item);tray.appendChild(el);
       });
     }
     function buildCheck(){
       checkEl.innerHTML='';
-      PCHECK.forEach(function(g){
+      [['Greenfield & Energie',['z-civil','z-zas','z-euv','z-rack','z-lwl','z-mast','ac1','ac2','fo0']],['Sektor A',['z-rruA','z-antA','z-aauA','dcA','foA','hfA','dcAa','foAa']],['Sektor B',['z-rruB','z-antB','z-aauB','dcB','foB','hfB','dcBa','foBa']],['Sektor C',['z-rruC','z-antC','z-aauC','dcC','foC','hfC','dcCa','foCa']],['Richtfunk',['z-mw','mwData','mwAir']]].forEach(function(g){
         var h=document.createElement('div');h.className='chk-grp';h.textContent=g[0];checkEl.appendChild(h);
-        g[1].forEach(function(it){var r=document.createElement('div');r.className='chk';r.id='chk-'+it[0];
-          r.innerHTML='<span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span><span>'+it[1]+'</span>';checkEl.appendChild(r);});
+        g[1].forEach(function(id){var c=id.indexOf('z-')===0?COMP_BY_ZONE[id]:CABLE_BY_ID[id];var r=document.createElement('div');r.className='chk';r.id='chk-'+id;
+          r.innerHTML='<span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span><span>'+((c&&c.sub)?c.sub:(c&&c.short)||id)+'</span>';checkEl.appendChild(r);});
       });
     }
-    function progress(){var n=count();barEl.style.width=(n/10*100)+'%';labelEl.textContent=n+' von 10 Bauteilen';
-      ZIDS.forEach(function(z){var r=document.getElementById('chk-'+z);if(r)r.classList.toggle('done',!!filled[z]);});
-      proUpdateStats();}
-    function hint(t){hintEl.textContent=t;hintEl.classList.add('on');if(hintTimer)clearTimeout(hintTimer);hintTimer=setTimeout(function(){hintEl.classList.remove('on');},4200);}
-    function prereqMsg(zid){
-      if(zid==='z-euv')return 'Zuerst die Zählerabschluss-Säule – sie bringt den Netzstrom.';
-      if(zid==='z-svr')return 'Vor dem SV-Rack kommt der EÜV (Energie-Übergabe).';
-      if(zid==='z-lwl')return 'Die Glasfaser endet am SV-Rack – stell zuerst das Rack auf.';
-      if(zid.indexOf('z-rru')===0)return 'Die RRU braucht Energie (SV-Rack) und Glasfaser (LWL) – erst beides aufbauen.';
-      if(zid.indexOf('z-aau')===0)return 'Die aktive Antenne sitzt auf der RRU dieses Sektors – erst die RRU montieren.';
-      return 'Erst die Vorarbeiten erledigen.';
+    function progress(){
+      updateStats();
+      Array.prototype.forEach.call(checkEl.querySelectorAll('.chk'),function(r){var id=r.id.replace('chk-','');r.classList.toggle('done',id.indexOf('z-')===0?!!filled[id]:!!linked[id]);});
     }
-    function flashBad(z){z.classList.add('bad');setTimeout(function(){z.classList.remove('bad');},520);}
+    function prereqMsg(c){
+      var missing=c.need.filter(function(n){return !reqDone(n);}).map(function(n){if(n.indexOf('z-')===0){var z=document.getElementById(n);return z?(z.querySelector('.zlabel')||z).textContent:n;}return (CABLE_BY_ID[n]&&CABLE_BY_ID[n].sub)||n;});
+      return missing.length?'Vorher nötig: '+missing.join(', ')+'.':'Diese Aufgabe ist noch nicht an der Reihe.';
+    }
+    function flashBad(z){z.classList.add('bad');setTimeout(function(){z.classList.remove('bad');},620);}
+    function clearSource(){ZIDS.forEach(function(z){document.getElementById(z).classList.remove('source');});}
+    function clearSelect(){if(selected&&selected.chip)selected.chip.classList.remove('selected');selected=null;clearSource();}
+    function selectItem(kind,item,chip){
+      if(selected&&selected.chip===chip){clearSelect();return;}
+      clearSelect();selected={kind:kind,item:item,chip:chip,from:null};chip.classList.add('selected');
+      if(kind==='component')hint('Ziehe '+item.short+' an die richtige Position: '+(document.getElementById(item.zone).textContent||item.zone)+'.');
+      else hint('Kabel auswählen: zuerst Quelle '+zoneName(item.from)+' anklicken, danach Ziel '+(item.to?zoneName(item.to):'Gegenstelle')+'.');
+    }
+    function zoneName(id){var z=document.getElementById(id);return z?(z.querySelector('.zlabel')||z).textContent:id;}
+    function placeDom(z,c){z.classList.add('filled');z.innerHTML='<span class="inst"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+c.ico+'</svg><b>'+c.short+'</b></span>';}
+    function tryPlaceComponent(c,chip,z){
+      start();
+      if(filled[z.id]){penalize('Hier ist schon ein Element montiert.',z);return;}
+      if(z.id!==c.zone){penalize('An diese Position gehört '+(TYPENICE[(COMP_BY_ZONE[z.id]||{}).type]||'kein Bauteil')+' – nicht '+c.short+'.',z);return;}
+      if(!needsMet(c.need)){penalize(prereqMsg(c),z);return;}
+      proScore+=120;filled[z.id]=c.id;placeDom(z,c);if(chip&&chip.parentNode)chip.parentNode.removeChild(chip);clearSelect();drawWires();progress();hint(c.short+' montiert.');if(doneCount()===TOTAL)finale();
+    }
+    function tryCableClick(c,z){
+      start();
+      if(!needsMet(c.need)){penalize(prereqMsg(c),z);return;}
+      if(!selected.from){
+        if(z.id!==c.from){penalize('Falsche Quelle: Dieses Kabel startet bei '+zoneName(c.from)+'.',z);return;}
+        selected.from=z.id;z.classList.add('source');hint('Quelle gesetzt. Jetzt Ziel '+(c.to?zoneName(c.to):'Gegenstelle')+' anklicken.');return;
+      }
+      if(c.to&&z.id!==c.to){penalize('Falsches Ziel: Dieses Kabel endet bei '+zoneName(c.to)+'.',z);return;}
+      linked[c.id]=1;proScore+=80;if(selected.chip&&selected.chip.parentNode)selected.chip.parentNode.removeChild(selected.chip);clearSelect();drawWires();progress();hint(c.sub+' verbunden.');if(doneCount()===TOTAL)finale();
+    }
+    function zoneAt(x,y){for(var i=0;i<ZIDS.length;i++){var z=document.getElementById(ZIDS[i]),r=z.getBoundingClientRect();if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return z;}return null;}
+    function clearHl(){ZIDS.forEach(function(z){var el=document.getElementById(z);el.classList.remove('ok');el.classList.remove('bad');});}
+    function hl(x,y,kind,item){clearHl();var z=zoneAt(x,y);if(!z)return;if(kind==='component'){z.classList.add(z.id===item.zone&&needsMet(item.need)&&!filled[z.id]?'ok':'bad');}else{z.classList.add((z.id===item.from||z.id===item.to)&&needsMet(item.need)?'ok':'bad');}}
 
     function zc(zid){var z=document.getElementById(zid),s=scene.getBoundingClientRect(),r=z.getBoundingClientRect();return {x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2};}
-    function line(a,b,color,dash,off){
-      var ux=b.x-a.x,uy=b.y-a.y,L=Math.sqrt(ux*ux+uy*uy)||1,px=-uy/L*(off||0),py=ux/L*(off||0);
-      var l=document.createElementNS(SVGNS,'line');
-      l.setAttribute('x1',a.x+px);l.setAttribute('y1',a.y+py);l.setAttribute('x2',b.x+px);l.setAttribute('y2',b.y+py);
-      l.setAttribute('stroke',color);l.setAttribute('stroke-width','2.6');l.setAttribute('stroke-linecap','round');
-      if(dash)l.setAttribute('stroke-dasharray',dash);wires.appendChild(l);
-    }
+    function linePts(a,b,color,dash,off,width){var ux=b.x-a.x,uy=b.y-a.y,L=Math.sqrt(ux*ux+uy*uy)||1,px=-uy/L*(off||0),py=ux/L*(off||0);var l=document.createElementNS(SVGNS,'line');l.setAttribute('x1',a.x+px);l.setAttribute('y1',a.y+py);l.setAttribute('x2',b.x+px);l.setAttribute('y2',b.y+py);l.setAttribute('stroke',color);l.setAttribute('stroke-width',width||2.8);l.setAttribute('stroke-linecap','round');if(dash)l.setAttribute('stroke-dasharray',dash);wires.appendChild(l);}
     function drawWires(){
       var W=scene.clientWidth,H=scene.clientHeight;wires.setAttribute('viewBox','0 0 '+W+' '+H);wires.innerHTML='';
-      if(filled['z-zas']&&filled['z-euv'])line(zc('z-zas'),zc('z-euv'),'#8a929a',0,0);
-      if(filled['z-euv']&&filled['z-svr'])line(zc('z-euv'),zc('z-svr'),'#8a929a',0,0);
-      if(filled['z-lwl']&&filled['z-svr'])line(zc('z-lwl'),zc('z-svr'),'#2C8FE0','6 5',0);
-      ['A','B','C'].forEach(function(S){var rru='z-rru'+S,aau='z-aau'+S;
-        if(filled['z-svr']&&filled[rru])line(zc('z-svr'),zc(rru),'#F2882B',0,-3);
-        if(filled['z-lwl']&&filled[rru])line(zc('z-svr'),zc(rru),'#2C8FE0','6 5',3);
-        if(filled[rru]&&filled[aau])line(zc(rru),zc(aau),'#5FB0D4',0,0);
-      });
+      CABLES.forEach(function(c){if(!linked[c.id])return;var a=zc(c.from),b=c.to?zc(c.to):{x:W+60,y:a.y-40};linePts(a,b,c.color,c.dash,c.off,c.kind==='hf'?3.2:2.8);});
     }
-
-    function placeDom(z,c){z.classList.add('filled');z.innerHTML='<span class="inst"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+c.ico+'</svg><b>'+c.short+'</b></span>';}
-    function clearSelect(){if(selected&&selected.chip)selected.chip.classList.remove('selected');selected=null;}
-    function selectComp(c,chip){if(selected&&selected.chip===chip){clearSelect();return;}clearSelect();selected={comp:c,chip:chip};chip.classList.add('selected');hint('Jetzt auf die passende Position tippen.');}
-    function tryPlace(c,chip,z){
-      var zid=z.id,def=ZONES[zid];
-      if(!proStarted)proStarted=Date.now();
-      if(filled[zid]){proMistakes++;proScore=Math.max(0,proScore-15);progress();hint('Hier ist schon ein Bauteil montiert.');return;}
-      if(def.type!==c.type){proMistakes++;proScore=Math.max(0,proScore-20);progress();hint('An diese Position gehört '+TYPENICE[def.type]+'.');flashBad(z);return;}
-      if(!needMet(zid)){proMistakes++;proScore=Math.max(0,proScore-20);progress();hint(prereqMsg(zid));flashBad(z);return;}
-      proScore+=120;
-      filled[zid]=c.id;placeDom(z,c);if(chip&&chip.parentNode)chip.parentNode.removeChild(chip);clearSelect();
-      drawWires();progress();
-      if(count()===10)finale();
-    }
-    function zoneAt(x,y){for(var i=0;i<ZIDS.length;i++){if(filled[ZIDS[i]])continue;var z=document.getElementById(ZIDS[i]),r=z.getBoundingClientRect();if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return z;}return null;}
-    function clearHl(){ZIDS.forEach(function(z){var el=document.getElementById(z);el.classList.remove('ok');el.classList.remove('bad');});}
-    function hl(x,y,c){clearHl();var z=zoneAt(x,y);if(!z)return;var def=ZONES[z.id];if(def.type===c.type&&needMet(z.id))z.classList.add('ok');else z.classList.add('bad');}
-
-    function attachChip(chip,c){
-      chip.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectComp(c,chip);}});
+    function attachChip(chip,kind,item){
+      chip.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectItem(kind,item,chip);}});
       chip.addEventListener('pointerdown',function(ev){
         ev.preventDefault();
         var sx=ev.clientX,sy=ev.clientY,dragging=false,ghost=null;
-        function move(e){
-          var dx=e.clientX-sx,dy=e.clientY-sy;
-          if(!dragging&&(Math.abs(dx)+Math.abs(dy))>6){dragging=true;ghost=chip.cloneNode(true);ghost.classList.add('ghost');ghost.style.width=chip.offsetWidth+'px';document.body.appendChild(ghost);chip.style.opacity='.35';}
-          if(dragging){ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';hl(e.clientX,e.clientY,c);}
-        }
-        function up(e){
-          document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);
-          if(dragging){chip.style.opacity='';if(ghost)ghost.remove();clearHl();var z=zoneAt(e.clientX,e.clientY);if(z)tryPlace(c,chip,z);}
-          else{selectComp(c,chip);}
-        }
+        function move(e){var dx=e.clientX-sx,dy=e.clientY-sy;if(!dragging&&(Math.abs(dx)+Math.abs(dy))>6){dragging=true;selectItem(kind,item,chip);ghost=chip.cloneNode(true);ghost.classList.add('ghost');ghost.style.width=chip.offsetWidth+'px';document.body.appendChild(ghost);chip.style.opacity='.35';}if(dragging){ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';hl(e.clientX,e.clientY,kind,item);}}
+        function up(e){document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);if(dragging){chip.style.opacity='';if(ghost)ghost.remove();clearHl();var z=zoneAt(e.clientX,e.clientY);if(z){if(kind==='component')tryPlaceComponent(item,chip,z);else tryCableClick(item,z);}}else{selectItem(kind,item,chip);}}
         document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);
       });
     }
-
-    function ringFx(){['10%','28%','46%'].forEach(function(tp){var r=document.createElement('div');r.className='pro-ring';r.style.left='83%';r.style.top=tp;scene.appendChild(r);});}
-    function proConfetti(){var cols=['#2C8FE0','#1769B2','#5FB0D4','#F2882B','#ffffff'];var c=document.createElement('div');c.className='confetti';scene.appendChild(c);
-      for(var i=0;i<30;i++){var s=document.createElement('span');s.style.left=(Math.random()*100)+'%';s.style.background=cols[i%cols.length];s.style.animationDuration=(1.6+Math.random()*1.5)+'s';s.style.animationDelay=(Math.random()*0.5)+'s';s.style.transform='rotate('+(Math.random()*360)+'deg)';c.appendChild(s);}
-      setTimeout(function(){c.remove();},3400);}
-    function finale(){titleEl.textContent='Geschafft – Station am Netz!';subEl.style.display='none';tray.style.display='none';proAssist.style.display='none';winEl.classList.add('on');scene.classList.add('live');setTimeout(function(){live.classList.add('on');ringFx();proConfetti();},450);}
-
-    function reset(){
-      filled={};clearSelect();proScore=0;proMistakes=0;proStarted=0;
-      ZIDS.forEach(function(zid){var z=document.getElementById(zid);z.classList.remove('filled');z.classList.remove('ok');z.classList.remove('bad');z.innerHTML='<span class="zlabel">'+origLabels[zid]+'</span>';});
-      wires.innerHTML='';Array.prototype.forEach.call(scene.querySelectorAll('.pro-ring'),function(r){r.parentNode.removeChild(r);});
-      live.classList.remove('on');scene.classList.remove('live');winEl.classList.remove('on');
-      tray.style.display='flex';proAssist.style.display='inline-flex';subEl.style.display='block';titleEl.textContent='Bau die Station – Profimodus';hintEl.classList.remove('on');
-      buildTray();progress();drawWires();
-    }
-
+    function ringFx(){['12%','32%','56%'].forEach(function(tp){var r=document.createElement('div');r.className='pro-ring';r.style.left='84%';r.style.top=tp;scene.appendChild(r);});}
+    function proConfetti(){var cols=['#2C8FE0','#1769B2','#5FB0D4','#F2882B','#7C4DFF','#ffffff'];var c=document.createElement('div');c.className='confetti';scene.appendChild(c);for(var i=0;i<34;i++){var s=document.createElement('span');s.style.left=(Math.random()*100)+'%';s.style.background=cols[i%cols.length];s.style.animationDuration=(1.6+Math.random()*1.5)+'s';s.style.animationDelay=(Math.random()*0.5)+'s';s.style.transform='rotate('+(Math.random()*360)+'deg)';c.appendChild(s);}setTimeout(function(){c.remove();},3400);}
+    function finale(){titleEl.textContent='Geschafft – RAN on air!';subEl.style.display='none';tray.style.display='none';proAssist.style.display='none';winEl.classList.add('on');scene.classList.add('live');setTimeout(function(){live.classList.add('on');ringFx();proConfetti();},450);}
+    function reset(){filled={};linked={};clearSelect();proScore=0;proMistakes=0;proStarted=0;ZIDS.forEach(function(zid){var z=document.getElementById(zid);z.classList.remove('filled','ok','bad','source');z.innerHTML='<span class="zlabel">'+origLabels[zid]+'</span>';});wires.innerHTML='';Array.prototype.forEach.call(scene.querySelectorAll('.pro-ring'),function(r){r.parentNode.removeChild(r);});live.classList.remove('on');scene.classList.remove('live');winEl.classList.remove('on');tray.style.display='flex';proAssist.style.display='inline-flex';subEl.style.display='block';titleEl.textContent='RAN-System aufbauen – Profimodus';hintEl.classList.remove('on');buildTray();progress();drawWires();}
     function init(){
       if(!ready){
-        ZIDS.forEach(function(zid){var z=document.getElementById(zid),lab=z.querySelector('.zlabel');origLabels[zid]=lab?lab.textContent:'';z.setAttribute('tabindex','0');z.setAttribute('role','button');z.setAttribute('aria-label',(lab?lab.textContent:zid)+' Montageposition');z.addEventListener('click',function(){if(selected)tryPlace(selected.comp,selected.chip,z);});z.addEventListener('keydown',function(ev){if((ev.key==='Enter'||ev.key===' ')&&selected){ev.preventDefault();tryPlace(selected.comp,selected.chip,z);}});});
-        buildTray();buildCheck();
-        proAssist.addEventListener('click',function(){var z=nextOpenZone();if(!z)return;z.classList.add('ok');hint('Als Nächstes passt: '+(z.querySelector('.zlabel')?z.querySelector('.zlabel').textContent:z.textContent)+'.');setTimeout(function(){z.classList.remove('ok');},1400);});
-        document.getElementById('proReset').addEventListener('click',reset);
-        window.addEventListener('resize',function(){if(!document.getElementById('modePro').hidden)drawWires();});
-        ready=true;
+        ZIDS.forEach(function(zid){var z=document.getElementById(zid),lab=z.querySelector('.zlabel');origLabels[zid]=lab?lab.textContent:'';z.setAttribute('tabindex','0');z.setAttribute('role','button');z.setAttribute('aria-label',(lab?lab.textContent:zid)+' Montageposition');z.addEventListener('click',function(){if(!selected)return;if(selected.kind==='component')tryPlaceComponent(selected.item,selected.chip,z);else tryCableClick(selected.item,z);});z.addEventListener('keydown',function(ev){if((ev.key==='Enter'||ev.key===' ')&&selected){ev.preventDefault();if(selected.kind==='component')tryPlaceComponent(selected.item,selected.chip,z);else tryCableClick(selected.item,z);}});});
+        buildTray();buildCheck();proAssist.addEventListener('click',function(){var n=nextTask();if(!n)return;if(n.kind==='component'){var z=document.getElementById(n.item.zone);z.classList.add('ok');hint('Nächster Einbau: '+n.item.short+' an '+zoneName(n.item.zone)+'.');setTimeout(function(){z.classList.remove('ok');},1500);}else{var zf=document.getElementById(n.item.from);zf.classList.add('ok');hint('Nächstes Kabel: '+n.item.sub+' – Quelle zuerst anklicken.');setTimeout(function(){zf.classList.remove('ok');},1500);}});
+        document.getElementById('proReset').addEventListener('click',reset);window.addEventListener('resize',function(){if(!document.getElementById('modePro').hidden)drawWires();});ready=true;
       }
       progress();drawWires();
     }
@@ -1022,10 +1043,8 @@
     var basicEl=document.getElementById('modeBasic'),proEl=document.getElementById('modePro');
     Array.prototype.forEach.call(document.querySelectorAll('.mode-btn'),function(btn){
       btn.addEventListener('click',function(){
-        Array.prototype.forEach.call(document.querySelectorAll('.mode-btn'),function(b){b.classList.remove('active');});
-        btn.classList.add('active');
-        if(btn.getAttribute('data-mode')==='pro'){basicEl.hidden=true;proEl.hidden=false;init();setTimeout(drawWires,60);}
-        else{proEl.hidden=true;basicEl.hidden=false;}
+        Array.prototype.forEach.call(document.querySelectorAll('.mode-btn'),function(b){b.classList.remove('active');});btn.classList.add('active');
+        if(btn.getAttribute('data-mode')==='pro'){basicEl.hidden=true;proEl.hidden=false;init();setTimeout(drawWires,60);}else{proEl.hidden=true;basicEl.hidden=false;}
       });
     });
   })();
